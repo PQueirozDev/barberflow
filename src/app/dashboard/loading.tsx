@@ -1,0 +1,1 @@
+export default function Loading(){return <div aria-label="Carregando painel" role="status"><div className="skeleton h-10 w-64 mb-8"/><div className="grid grid-cols-2 xl:grid-cols-4 gap-5">{[1,2,3,4].map(x=><div key={x} className="skeleton h-36"/>)}</div><div className="skeleton h-80 mt-8"/></div>;}

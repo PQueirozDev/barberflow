@@ -1,0 +1,2 @@
+'use client';
+export default function ErrorPage({reset}:{reset:()=>void}){return <main className="min-h-[60vh] grid place-items-center p-6"><div className="card max-w-md p-8 text-center"><h1 className="text-2xl">Não foi possível carregar esta página.</h1><p className="muted my-5">Tente novamente. Se o ambiente ainda estiver em configuração, confira as variáveis e a migração do Supabase.</p><button onClick={reset} className="btn btn-dark">Tentar novamente</button></div></main>;}

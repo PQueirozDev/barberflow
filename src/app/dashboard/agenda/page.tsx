@@ -1,0 +1,3 @@
+import { tenantData,getAppointments } from '@/services/queries';
+import { AppointmentManager } from '@/components/dashboard/appointment-manager';
+export default async function Agenda({searchParams}:{searchParams:Promise<Record<string,string|undefined>>}){const ctx=await tenantData();const[appointments,params]=await Promise.all([getAppointments(ctx),searchParams]);return <AppointmentManager calendar appointments={appointments} data={{shop:ctx.shop,services:ctx.services,barbers:ctx.barbers,barber_services:ctx.links,hours:ctx.hours}} initialDate={params.date&&/^\d{4}-\d{2}-\d{2}$/.test(params.date)?params.date:undefined}/>;}

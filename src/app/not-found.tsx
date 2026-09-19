@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function NotFound(){return <main className="min-h-screen grid place-items-center p-6"><div className="text-center"><p className="eyebrow">404 · PÁGINA NÃO ENCONTRADA</p><h1 className="text-3xl">Este endereço não está disponível.</h1><p className="muted my-5">Confira o link da barbearia e tente novamente.</p><Link href="/" className="btn btn-dark">Voltar ao início</Link></div></main>;}

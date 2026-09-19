@@ -1,0 +1,114 @@
+generator client {
+	provider = "prisma-client-js"
+}
+datasource db {
+	provider = "postgresql"
+	url = env("DATABASE_URL")
+}
+
+enum Role {
+	OWNER
+	CUSTOMER
+}
+enum AppointmentStatus {
+	PENDING
+	CONFIRMED
+	COMPLETED
+	CANCELLED
+}
+model User {
+	id String @id @default(cuid())
+	name String
+	email String @unique
+	passwordHash String
+	role Role @default(OWNER)
+	barbershops Barbershop[]
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+}
+model Barbershop {
+	id String @id @default(cuid())
+	ownerId String
+	name String
+	slug String @unique
+	logoUrl String?
+	coverUrl String?
+	description String?
+	phone String?
+	instagram String?
+	address String?
+	city String?
+	state String?
+	owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+	services Service[]
+	barbers Barber[]
+	customers Customer[]
+	appointments Appointment[]
+	workingHours WorkingHour[]
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+}
+model Service {
+	id String @id @default(cuid())
+	barbershopId String
+	name String
+	description String?
+	price Decimal @db.Decimal(10, 2)
+	duration Int
+	active Boolean @default(true)
+	barbershop Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+	appointments Appointment[]
+	barbers Barber[]
+}
+model Barber {
+	id String @id @default(cuid())
+	barbershopId String
+	name String
+	photoUrl String?
+	description String?
+	active Boolean @default(true)
+	barbershop Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+	services Service[]
+	appointments Appointment[]
+	workingHours WorkingHour[]
+}
+model Customer {
+	id String @id @default(cuid())
+	barbershopId String
+	name String
+	whatsapp String
+	email String?
+	barbershop Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+	appointments Appointment[]
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	@@unique([barbershopId, whatsapp])
+}
+model Appointment {
+	id String @id @default(cuid())
+	code String @unique
+	barbershopId String
+	barberId String
+	serviceId String
+	customerId String
+	startsAt DateTime
+	endsAt DateTime
+	status AppointmentStatus @default(PENDING)
+	barbershop Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+	barber Barber @relation(fields: [barberId], references: [id])
+	service Service @relation(fields: [serviceId], references: [id])
+	customer Customer @relation(fields: [customerId], references: [id])
+	createdAt DateTime @default(now())
+	@@index([barbershopId, startsAt])
+	@@index([barberId, startsAt])
+}
+model WorkingHour {
+	id String @id @default(cuid())
+	barbershopId String
+	barberId String?
+	dayOfWeek Int
+	startTime String
+	endTime String
+	barbershop Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+	barber Barber? @relation(fields: [barberId], references: [id], onDelete: Cascade)
+}

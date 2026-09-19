@@ -1,0 +1,10 @@
+export type Shop={id:string;name:string;slug:string;phone:string;whatsapp:string;instagram:string;address:string;city:string;state:string;description:string;logo_url:string|null;cover_url:string|null;primary_color:string;timezone:string;booking_enabled:boolean;suspended:boolean;notifications_enabled:boolean;created_at:string};
+export type Service={id:string;barbershop_id:string;name:string;description:string;price_cents:number;duration_minutes:number;photo_url:string|null;active:boolean};
+export type Barber={id:string;barbershop_id:string;name:string;photo_url:string|null;phone:string;email:string;specialties:string;description:string;active:boolean};
+export type Customer={id:string;name:string;phone:string;whatsapp:string;email:string|null;created_at:string};
+export type Status='PENDING'|'CONFIRMED'|'COMPLETED'|'CANCELLED'|'NO_SHOW';
+export type Appointment={id:string;code:string;barber_id:string;service_id:string;customer_id:string;starts_at:string;ends_at:string;price_cents:number;status:Status;customers:Customer;services:Service;barbers:Barber};
+export type Hours={id?:string;weekday:number;opens_at:string;closes_at:string};
+export type PublicShop={shop:Shop;services:Service[];barbers:Barber[];barber_services:{barber_id:string;service_id:string}[];hours:Hours[]};
+export type BookingReceipt={code:string;starts_at:string;ends_at:string;price_cents:number;service:string;barber:string;shop:string;whatsapp:string;customer:string;timezone:string};
+export type ActionResult={error?:string;success?:string;redirect?:string};
