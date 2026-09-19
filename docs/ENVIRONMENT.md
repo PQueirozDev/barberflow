@@ -1,6 +1,6 @@
 # Ambiente configurado
 
-Atualizado em 18/09/2026.
+Atualizado em 19/09/2026.
 
 - Projeto Supabase: `barberflow`, referência `wklasgsubtkpieshsfxc`, organização Barberflow, plano gratuito.
 - Região do banco: West US (Oregon), escolhida na criação do projeto. O fuso dos agendamentos é configurado por barbearia, independentemente da região do servidor.
@@ -8,7 +8,7 @@ Atualizado em 18/09/2026.
 - Verificação no banco: 13 tabelas públicas, todas com RLS habilitada.
 - Bucket `barbershops` criado com políticas de upload por associação à barbearia e leitura pública de imagens.
 - Credenciais locais guardadas em `.env.local`, ignorado pelo Git e excluído do upload pela `.vercelignore`. Na Vercel, as quatro variáveis da aplicação foram configuradas para produção; `SUPABASE_SERVICE_ROLE_KEY` foi cadastrada como Secret.
-- Site URL: `http://localhost:3000`. Callbacks autorizados: `/auth/callback` e `/auth/callback?next=/redefinir-senha` nessa origem.
+- Site URL: `https://barberflow-pqueirozdev.vercel.app`. Os callbacks `/auth/callback` e `/auth/callback?next=/redefinir-senha` estão autorizados nas origens de produção e local.
 
 ## Verificado no projeto real
 
@@ -19,7 +19,6 @@ O teste real identificou e permitiu corrigir a rejeição de horários ISO com o
 ## Pendências externas
 
 - SMTP personalizado não configurado. Confirmação de cadastro e recuperação de senha por email ainda precisam ser validadas com o provedor do responsável pelo projeto. Não houve envio de emails durante os testes.
-- Atualizar no Supabase a Site URL para `https://barberflow-pqueirozdev.vercel.app` e adicionar os callbacks `https://barberflow-pqueirozdev.vercel.app/auth/callback` e `https://barberflow-pqueirozdev.vercel.app/auth/callback?next=/redefinir-senha`. A conexão com o navegador deixou de responder durante a publicação, impedindo essa alteração. Preservar os callbacks locais para desenvolvimento.
 - A conta e os dados reais da barbearia devem ser cadastrados pelo responsável. Nenhum usuário de teste foi mantido, e nenhuma senha de usuário foi definida para ele.
 
 ## Produção na Vercel
