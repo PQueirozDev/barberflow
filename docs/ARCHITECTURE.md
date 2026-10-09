@@ -1,4 +1,4 @@
-# Barberflow — arquitetura
+# Zekro — arquitetura
 
 ## Decisões antes da implementação
 
@@ -34,7 +34,7 @@ chamadas públicas não excluem reservas nem obtêm essa duração histórica.
 manage_appointment_checked serializa por tenant, bloqueia a linha e compara
 updated_at integral. A assinatura antiga permanece disponível sem a comparação
 otimista. Estados terminais e reativação explícita seguem a máquina documentada
-em MIGRATION_SECURITY.md. Reativação/remarcação revalidam o limite FREE.
+em MIGRATION_SECURITY.md. Reativação/remarcação revalidam a vigência da assinatura.
 
 book_appointment normaliza telefone brasileiro e reutiliza cadastro existente
 sem sobrescrever PII. Correções cadastrais usam update_customer autenticado.
@@ -44,7 +44,9 @@ de clientes. Rate limiting não é prova de posse do número.
 
 ## Billing e notificações
 
-Assinatura FREE/PRO separada do tenant; provider/provider_subscription_id para futuro adapter Stripe/Mercado Pago. Sem cobrança fictícia. FREE limitado a 50 reservas por mês. Links wa.me permitem envio manual; nenhuma mensagem automática é enviada.
+Assinatura separada do tenant, com teste de sete dias e acesso PRO por R$ 49,90 a cada 30 dias. Não há oferta de plano gratuito permanente. O pagamento é Pix direto, sem intermediário: OWNER solicita a fatura e informa o pagamento; ADMIN verifica o recebimento no banco e aprova com referência bancária única. Informar o pagamento não libera acesso. A aprovação transacional é idempotente e auditada. Links wa.me permitem envio manual; nenhuma mensagem automática é enviada.
+
+`/dashboard/pagamento` atende o proprietário; `/admin/pix` exige ADMIN. Login Google usa PKCE em `/auth/google` e `/auth/callback`. `/termos`, `/privacidade` e `/contato` publicam as informações legais; onboarding registra a versão aceita dos termos.
 
 ## Validação e entrega
 

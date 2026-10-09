@@ -1,6 +1,14 @@
 # Ambiente configurado
 
-Atualizado em 19/09/2026.
+## Estado atual — 08/10/2026
+
+Produção: https://zekro.vercel.app, projeto Vercel `zekro`. As quatro migrações incrementais de 08/10 foram aplicadas com autorização e os oito checks de prontidão passaram. Google login foi confirmado pelo responsável e sua conta recebeu ADMIN. SMTP e templates estão configurados; entrega real na caixa de entrada ainda exige homologação. Pix direto está configurado, mas recebimento e aprovação de um pagamento real ainda não foram homologados.
+
+Em 09/10/2026 UTC, a API de backups retornou lista vazia e PITR desabilitado. O snapshot privado existente cobre recuperação das migrações; não substitui backup completo de banco, Auth e objetos do Storage. Não foi contratado serviço pago. Consulte [registro de implantação](DEPLOYMENT_20261008.md).
+
+## Histórico — 19/09/2026 e auditoria inicial
+
+Os registros abaixo descrevem verificações anteriores à implantação atual.
 
 ## Auditoria local em 08/10/2026
 

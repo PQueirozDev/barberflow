@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-const templates=[['confirmation','Confirme seu email — Barberflow'],['recovery','Redefina sua senha — Barberflow']];
+const templates=[['confirmation','Confirme seu email no Zekro'],['recovery','Redefina sua senha no Zekro']];
 async function main(){
  const config={};
  for(const [type,subject] of templates){const html=await readFile(new URL(`../supabase/templates/${type}.html`,import.meta.url),'utf8');if(!html.includes('{{ .ConfirmationURL }}'))throw new Error('Template sem link de autenticação.');config[`mailer_subjects_${type}`]=subject;config[`mailer_templates_${type}_content`]=html;}

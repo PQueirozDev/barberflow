@@ -46,6 +46,14 @@ Após confirmação de login, o usuário autorizou habilitar sua conta como ADMI
 
 ## Validação e limites
 
+### Complemento — 09/10/2026 UTC
+
+Corrigidos os assuntos do script manual SMTP, que ainda mencionavam Barberflow, e adicionada regressão para manter consistência com a configuração declarativa e os links dos templates. Arquitetura e ambiente foram atualizados para refletir teste de sete dias, Pix manual e produção Zekro. Nenhuma credencial foi alterada.
+
+Verificação readonly de backups: lista vazia e PITR desabilitado. Checklist da planilha privada atualizado. Docker não está disponível neste ambiente Windows para o fluxo de dump do CLI; não foi produzido nem declarado um backup completo. Não contratar backup pago sem autorização. A homologação do recebimento bancário, entrega de SMTP e restauração completa permanece aberta.
+
+Revalidação local: 61 testes unitários/SQL e 20 E2E passaram; lint, build e typecheck aprovados. Typecheck foi repetido após o build: a tentativa concorrente falhou porque o build recriava `.next/types`, sem falha de código remanescente.
+
 - Typecheck e lint passaram novamente após adicionar o verificador de recuperação.
 - Verificador local: 15 funções recuperadas, 33 policies compatíveis e quatro migrações aplicadas sobre o snapshot; oito checks de prontidão passaram localmente.
 - Os oito checks também passaram na produção autorizada.
