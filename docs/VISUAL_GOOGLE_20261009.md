@@ -6,4 +6,6 @@ No projeto Google `zekro-511101`, o nome já era Zekro. Links de início, privac
 
 Validação: 61 testes unitários/SQL, 20 E2E desktop/celular, lint e build aprovados; typecheck aprovado após build. Inspeção visual local encontrou uma camada decorativa sobre a agenda e ela foi removida.
 
+A verificação automática da marca identificou propriedade do site ainda não comprovada. Arquivo HTML público fornecido pelo Search Console adicionado em `public/google00ecade473dd7470.html`. Após comprovar a propriedade, o Google pede aguardar 24 horas antes de repetir a verificação da marca. Não remover o arquivo: ele mantém a comprovação. Não é senha nem chave administrativa.
+
 Pendências externas preservadas: recebimento/conferência de Pix real, confirmação de entrega de email pelo responsável e backup completo com restauração validada. Nenhum pagamento realizado, serviço pago contratado ou credencial alterada.
