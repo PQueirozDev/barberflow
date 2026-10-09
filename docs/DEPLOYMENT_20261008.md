@@ -34,9 +34,25 @@ A branch testada foi incorporada à `main` por fast-forward e enviada ao GitHub.
 
 Verificações HTTP em produção: `/`, `/login`, `/cadastro`, `/termos`, `/privacidade`, `/contato` e `/icon.svg` responderam 200; `/dashboard` e `/admin/pix` sem sessão redirecionaram ao login; disponibilidade sem parâmetros respondeu 400. Nenhuma reserva, conta ou transação financeira foi criada.
 
-O início de `/auth/google` apontou para o Supabase correto, mas o provedor retornou `Unsupported provider: provider is not enabled`. Não é um login Google aprovado: a configuração do cliente OAuth continua pendente.
+Na primeira verificação, `/auth/google` apontou para o Supabase correto, mas o provedor ainda estava desabilitado. O usuário posteriormente criou e configurou o cliente OAuth diretamente no Google Cloud/Supabase, sem enviar o Client Secret ao agente.
 
-O usuário forneceu recebedor Pix e identificação/contato do operador. As cinco variáveis foram configuradas apenas na Vercel, sem gravar os valores no repositório. O nome no BR Code foi abreviado para atender o limite de 25 caracteres; a página de contato usa a identificação completa. Novo build é necessário para incorporar essa configuração. Não houve pagamento ou confirmação bancária de teste.
+A verificação posterior recebeu redirecionamento 302 para `accounts.google.com`, com Client ID configurado, callback Supabase correto e escopos `openid`, `email` e `profile`. O usuário confirmou que completou o login. O banco confirmou uma identidade Google com email verificado e perfil criado para a conta do responsável. O agente não simulou esse login completo nem extraiu credenciais.
+
+O usuário forneceu recebedor Pix e identificação/contato do operador. As cinco variáveis foram configuradas apenas na Vercel, sem gravar os valores no repositório. O nome no BR Code foi abreviado para atender o limite de 25 caracteres; a página de contato usa a identificação completa. O deploy `dpl_HrfxEHNzYNSrtgKwxi34GBeVKd1e`, commit `fa6328f`, ficou Ready e incorporou essa configuração. A página de contato respondeu 200 e exibiu identificação, email e link de suporte corretos. Não houve pagamento ou confirmação bancária de teste.
+
+## Administração
+
+Após confirmação de login, o usuário autorizou habilitar sua conta como ADMIN. Antes da alteração, a conta foi identificada unicamente por email confirmado, identidade Google e perfil existente. Uma única conta foi promovida; a leitura posterior confirmou o papel ADMIN. Nenhuma outra associação ou conta foi alterada. O administrador usa `/admin` e `/admin/pix` para gerenciar a plataforma e conferir créditos reais antes de liberar acesso.
+
+## Validação e limites
+
+- Typecheck e lint passaram novamente após adicionar o verificador de recuperação.
+- Verificador local: 15 funções recuperadas, 33 policies compatíveis e quatro migrações aplicadas sobre o snapshot; oito checks de prontidão passaram localmente.
+- Os oito checks também passaram na produção autorizada.
+- Build de produção da Vercel passou com lint e validação de tipos.
+- A entrega de aplicação anterior passou em `npm test` (60) e `npm run test:e2e` (20, desktop/celular), conforme PIX_GOOGLE_LEGAL.md. O início OAuth também foi verificado no servidor real; o login completo foi confirmado pelo usuário.
+- Entrega de SMTP, QR no aplicativo bancário, recebimento/conferência de Pix e uploads reais ainda precisam de homologação. Nenhuma transferência foi realizada pelo agente.
+- O snapshot arquiva os objetos afetados pelas migrações e não substitui backup completo de desastre. Planilha privada e snapshots permanecem fora do Git.
 
 ## Ordem de publicação
 

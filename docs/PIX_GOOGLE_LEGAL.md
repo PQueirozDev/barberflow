@@ -2,7 +2,7 @@
 
 ## Estado da implementação
 
-Atualização remota: as migrações foram aplicadas em produção com autorização e a nova versão está em https://zekro.vercel.app. Configuração de Pix/contato fornecida pelo responsável foi registrada somente nas variáveis de produção da Vercel; seus valores não são registrados neste documento. Google OAuth ainda precisa do cliente Google Cloud. Consulte [DEPLOYMENT_20261008.md](DEPLOYMENT_20261008.md) para o estado atual; as observações de configuração pendente abaixo registram a entrega local anterior.
+Atualização remota: as migrações foram aplicadas em produção com autorização e a nova versão está em https://zekro.vercel.app. Configuração de Pix/contato fornecida pelo responsável foi registrada somente nas variáveis de produção da Vercel; seus valores não são registrados neste documento. Google OAuth foi configurado pelo usuário no Google Cloud/Supabase e o login completo foi confirmado por ele. Sua conta foi habilitada como ADMIN após autorização explícita. Consulte [DEPLOYMENT_20261008.md](DEPLOYMENT_20261008.md) para o estado atual; as observações de configuração pendente abaixo registram a entrega local anterior.
 
 O pagamento do Zekro Pro é **Pix direto**, sem Mercado Pago, Stripe, webhook bancário ou cobrança recorrente. São R$ 49,90 por **30 dias**, após sete dias de teste. Não existe taxa de intermediário integrada. Tarifas bancárias, infraestrutura e limites dos planos gratuitos são externos ao código; não se deve prometer operação gratuita ilimitada.
 

@@ -19,9 +19,9 @@ Para rollback em homologação, reverter o código junto com a migração: remov
 
 ## Pendências reais de lançamento
 
-- Configurar Pix direto e o recebedor real; homologar QR no banco e a confirmação manual em /admin/pix. Não haverá intermediário ou cobrança recorrente. Consulte docs/PIX_GOOGLE_LEGAL.md.
-- Habilitar Google OAuth no Supabase/Google e configurar identidade/contato das páginas legais.
-- Configurar SMTP e validar confirmação/recuperação em homologação (docs/SMTP.md).
+- Pix direto e recebedor real estão configurados; homologar QR no banco e a confirmação manual em /admin/pix. Não há intermediário ou cobrança recorrente. Consulte docs/PIX_GOOGLE_LEGAL.md.
+- Google OAuth está habilitado e o usuário confirmou login completo. Identidade e contato das páginas legais estão configurados; a conta do operador recebeu ADMIN com autorização explícita.
+- O SMTP existente foi preservado e os templates Zekro foram aplicados. Validar a entrega de confirmação/recuperação em homologação (docs/SMTP.md).
 - Avaliar o registro da marca Zekro conforme a operação. A disponibilidade do subdomínio Vercel já foi confirmada; isso não comprova disponibilidade jurídica da marca.
 - NEXT_PUBLIC_APP_URL, Site URL e redirect allowlist foram atualizados, preservando todos os redirects anteriores encontrados no servidor.
 - As migrações passaram em PostgreSQL local isolado com as definições recuperadas do snapshot de produção e foram aplicadas após autorização. Continuar com homologação real de Auth/Storage e entrega de emails; o snapshot das migrações não substitui backup completo de desastre.
