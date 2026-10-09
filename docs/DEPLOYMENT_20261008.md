@@ -18,7 +18,13 @@ Um snapshot dos objetos afetados foi exportado para `C:\Users\Pedro\Documents\Ba
 
 `npx tsx scripts/verify-migration-recovery.mts <caminho-privado-do-JSON>` executou a recuperação das 15 funções em um PostgreSQL local isolado, comparou os corpos das funções e as 33 policies com as migrações históricas e aplicou as quatro migrações novas sobre as definições arquivadas. A verificação passou. Nenhuma credencial de produção é usada por esse script.
 
-Após o download, a ferramenta de controle do navegador deixou de iniciar. As migrações de produção e a publicação da nova versão permanecem pendentes de recuperação desse acesso. A autorização do usuário já foi recebida e não precisa ser solicitada novamente para as mesmas quatro migrações.
+Após o download, a ferramenta de controle do navegador deixou de iniciar. O usuário autenticou o Supabase CLI na conta correta; a Vercel CLI já estava autenticada. O projeto foi confirmado como `ACTIVE_HEALTHY`.
+
+As quatro migrações incrementais foram aplicadas em produção, uma por vez, pelo comando oficial `supabase db query --linked --project-ref wklasgsubtkpieshsfxc --file <arquivo>`, após a autorização explícita do usuário. Nenhuma migração antiga foi reaplicada. Não foi usado `db push`.
+
+As oito verificações de `supabase/checks/launch-readiness.sql` passaram em produção: RLS nas tabelas existentes, EXCLUDE GiST, RPCs de autorização, RPC de reserva privada, rate limiting privado, triggers de teste, RLS do Pix e aceite dos termos. A consulta não cria usuários/reservas nem lê registros pessoais.
+
+O Site URL do Supabase Auth foi atualizado para `https://zekro.vercel.app`. A allowlist inclui os novos callbacks de login e recuperação e preserva todos os callbacks anteriores encontrados no servidor. `supabase/config.toml` declara somente essas URLs. O diff foi revisado antes de `config push`; o CLI confirmou duas propriedades atualizadas e quinze propriedades não declaradas preservadas, sem envio de segredos. O SMTP existente está habilitado e não teve suas credenciais modificadas; a entrega real de emails ainda precisa ser homologada.
 
 ## Ordem de publicação
 

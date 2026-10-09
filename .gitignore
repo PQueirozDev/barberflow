@@ -7,5 +7,6 @@ node_modules/
 test-results/
 playwright-report/
 .vercel/
+supabase/.temp/
 
 Barberflow_Gerenciamento_Acessos.xlsx

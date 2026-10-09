@@ -1,0 +1,14 @@
+# Only these Auth URLs are managed here. Other remote properties stay unchanged.
+project_id = "zekro"
+
+[auth]
+site_url = "https://zekro.vercel.app"
+additional_redirect_urls = [
+  "https://zekro.vercel.app/auth/callback",
+  "https://zekro.vercel.app/auth/callback?next=/redefinir-senha",
+  "https://barberflow-pqueirozdev.vercel.app/auth/callback",
+  "https://barberflow-pqueirozdev.vercel.app/auth/callback?next=/redefinir-senha",
+  "https://barberflow-lake.vercel.app/auth/callback",
+  "http://localhost:3000/auth/callback",
+  "http://localhost:3000/auth/callback?next=/redefinir-senha",
+]

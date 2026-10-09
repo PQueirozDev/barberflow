@@ -49,6 +49,11 @@ try {
   for (const file of ['202610080001_security_stability.sql', '202610080002_trial.sql', '202610080003_manual_pix.sql', '202610080004_terms_acceptance.sql']) {
     await db.exec(await readFile(`supabase/migrations/${file}`, 'utf8'));
   }
+  const readiness = await db.query<{ check_name: string; passed: boolean }>(
+    await readFile('supabase/checks/launch-readiness.sql', 'utf8'),
+  );
+  assert.equal(readiness.rows.length, 8);
+  for (const check of readiness.rows) assert.equal(check.passed, true, check.check_name);
   console.log(`Snapshot validado: ${snapshot.functions.length} funções recuperadas localmente, ${snapshot.policies.length} políticas compatíveis, RLS/GiST preservados e quatro migrações aplicadas no banco isolado.`);
 } finally {
   await db.close();
