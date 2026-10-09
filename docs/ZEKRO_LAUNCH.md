@@ -8,6 +8,8 @@ Aplicar, somente depois de homologação e autorização de produção:
 
 1. `202610080001_security_stability.sql` (documentada em MIGRATION_SECURITY.md).
 2. `202610080002_trial.sql`.
+3. `202610080003_manual_pix.sql`.
+4. `202610080004_terms_acceptance.sql`.
 
 A segunda migração concede sete dias a usuários FREE existentes a partir da aplicação. PRO existente mantém status e prazo. Novas barbearias recebem PRO/trialing com prazo de sete dias definido no banco. FREE permanece como valor histórico, mas não concede acesso a novas reservas. Não há alteração de dados pessoais nem remoção de tabelas.
 
@@ -17,7 +19,8 @@ Para rollback em homologação, reverter o código junto com a migração: remov
 
 ## Pendências reais de lançamento
 
-- Escolher provedor e configurar cobrança recorrente de BRL 4990 centavos, checkout OWNER, webhook assinado/idempotente, cancelamento e reconciliação. Atualmente existe apenas o contrato BillingProvider; **não existe cobrança funcional**. Não anunciar pagamentos ativos.
+- Configurar Pix direto e o recebedor real; homologar QR no banco e a confirmação manual em /admin/pix. Não haverá intermediário ou cobrança recorrente. Consulte docs/PIX_GOOGLE_LEGAL.md.
+- Habilitar Google OAuth no Supabase/Google e configurar identidade/contato das páginas legais.
 - Configurar SMTP e validar confirmação/recuperação em homologação (docs/SMTP.md).
 - Confirmar disponibilidade do nome Zekro e do endereço Vercel. Vincular o endereço somente após autorização.
 - Definir NEXT_PUBLIC_APP_URL=https://zekro.vercel.app na Vercel e atualizar Site URL/redirect allowlist no Supabase. Não substituir URLs antigas antes de validar links de recuperação/confirmacão em trânsito.
@@ -26,7 +29,7 @@ Para rollback em homologação, reverter o código junto com a migração: remov
 
 ## Entrega e deploy
 
-As mudanças são enviadas à branch `feat/zekro-security-trial`. Sua implantação automática está desabilitada em vercel.json para respeitar a instrução de não fazer deploy automático. Fazer merge e deploy só após resolver as pendências acima. O preço divulgado representa a oferta desejada; não constitui uma integração com um processador de pagamentos.
+As mudanças são enviadas à branch `feat/zekro-security-trial`. Sua implantação automática está desabilitada em vercel.json para respeitar a instrução de não fazer deploy automático. Fazer merge e deploy só após resolver as pendências acima. A implementação atual é de Pix direto, com liberação administrativa após conferência bancária. Configuração real e homologação bancária ainda pendentes.
 
 A planilha privada original continua fora do Git: `C:\Users\Pedro\Documents\Barberflow_Privado\Barberflow_Gerenciamento_Acessos.xlsx`. Atualizar os dados de plataforma apenas após confirmar a configuração real; nunca incluir credenciais.
 

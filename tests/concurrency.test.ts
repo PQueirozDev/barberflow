@@ -69,4 +69,12 @@ test('PostgreSQL nativo: concorrência entre conexões independentes', {timeout:
   assert.equal(results.filter(r=>r.status==='fulfilled').length,0);
   for(const r of results)assert.ok(r.status==='rejected'&&/temporariamente indisponíveis/.test(r.reason.message));
  });
+ await t.test('confirmações Pix simultâneas adicionam acesso só uma vez',async()=>{
+  const invoice=(await root.query('select request_pix_invoice($1,$2) id',[shop,'a'.repeat(64)])).rows[0].id;
+  const admin=crypto.randomUUID();await root.query('insert into auth.users(id) values($1)',[admin]);await root.query("update profiles set role='ADMIN' where id=$1",[admin]);
+  for(const client of [left,right]){await client.query("select set_config('request.jwt.claim.sub',$1,false)",[admin]);await client.query('set role authenticated');}
+  await Promise.all([left.query('select confirm_pix_payment($1,$2,4990)',[invoice,'E'+'1'.repeat(31)]),right.query('select confirm_pix_payment($1,$2,4990)',[invoice,'E'+'1'.repeat(31)])]);
+  const row=(await root.query("select extract(epoch from(access_ends_at-access_starts_at))/86400 days from pix_invoices where id=$1",[invoice])).rows[0];assert.equal(Number(row.days),30);
+  assert.equal((await root.query('select count(*)::int n from pix_review_events where invoice_id=$1',[invoice])).rows[0].n,1);
+ });
 });

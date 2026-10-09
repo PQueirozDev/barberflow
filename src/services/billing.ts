@@ -9,6 +9,4 @@ export function effectivePlan(subscription:Subscription|null,now=new Date()):Pla
  const validExpiry=!!subscription.subscription_expires_at&&new Date(subscription.subscription_expires_at)>now;
  return (subscription.subscription_status==='trialing'&&validExpiry)||(subscription.subscription_status==='active'&&(!subscription.subscription_expires_at||validExpiry))?'PRO':'FREE';
 }
-export interface BillingProvider {createCheckout(input:{shopId:string;returnUrl:string}):Promise<{url:string}>;cancelSubscription(providerSubscriptionId:string):Promise<void>;verifyWebhook(rawBody:string,signature:string):Promise<{eventId:string;subscriptionId:string;status:string}>;}
-// Providers futuros devem verificar assinatura, deduplicar eventId e resolver tenant
-// pelo provider_subscription_id persistido, nunca por IDs enviados pelo navegador.
+// Direct Pix is reviewed manually by an ADMIN; reporting payment never grants access.

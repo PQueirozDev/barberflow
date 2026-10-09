@@ -2,7 +2,7 @@
 
 SaaS de agendamento com Next.js, React, TypeScript e Supabase (Auth, PostgreSQL e Storage).
 
-Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Cobrança recorrente ainda não integrada; veja [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
+Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Pagamento via Pix direto, com conferência administrativa e sem renovação automática. Configuração real pendente; veja [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
 
 ## Executar
 
@@ -12,6 +12,8 @@ Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: 
    - `supabase/migrations/202609170002_management.sql`
    - `supabase/migrations/202610080001_security_stability.sql`
    - `supabase/migrations/202610080002_trial.sql`
+   - `supabase/migrations/202610080003_manual_pix.sql`
+   - `supabase/migrations/202610080004_terms_acceptance.sql`
    Para o banco existente, aplique somente a migração nova após homologação e autorização; siga [as instruções de aplicação e rollback](docs/MIGRATION_SECURITY.md).
 3. Copie `.env.example` para `.env.local` e substitua os valores:
    - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto.
@@ -73,3 +75,5 @@ Esse teste cria uma conta temporária já confirmada, uma barbearia, uma reserva
 Para produção, configure as mesmas variáveis na hospedagem, ajuste a origem e redirects, aplique as migrações e execute `npm run build` e `npm start`. Na Vercel, o rate limit usa o IP da plataforma; fora dela, o limite é compartilhado e a identificação de IP deve ser adaptada ao proxy confiável da hospedagem.
 
 `prisma/` e `docker-compose.yml` são legados e não participam da aplicação atual. Não execute o seed antigo: use cadastro e onboarding. Consulte [a arquitetura](docs/ARCHITECTURE.md).
+
+Configuração de Pix direto, Google OAuth e páginas legais: [PIX_GOOGLE_LEGAL.md](docs/PIX_GOOGLE_LEGAL.md).
