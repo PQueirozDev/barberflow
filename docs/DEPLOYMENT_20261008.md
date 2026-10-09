@@ -26,6 +26,18 @@ As oito verificações de `supabase/checks/launch-readiness.sql` passaram em pro
 
 O Site URL do Supabase Auth foi atualizado para `https://zekro.vercel.app`. A allowlist inclui os novos callbacks de login e recuperação e preserva todos os callbacks anteriores encontrados no servidor. `supabase/config.toml` declara somente essas URLs. O diff foi revisado antes de `config push`; o CLI confirmou duas propriedades atualizadas e quinze propriedades não declaradas preservadas, sem envio de segredos. O SMTP existente está habilitado e não teve suas credenciais modificadas; a entrega real de emails ainda precisa ser homologada.
 
+Depois, os assuntos e o conteúdo HTML dos templates de confirmação e recuperação Zekro foram aplicados pelo CLI: quatro propriedades atualizadas. Uma verificação posterior confirmou que o Auth remoto corresponde aos campos declarados, sem novas alterações nem envio de segredos. O config declara as URLs e esses dois templates.
+
+## Publicação confirmada
+
+A branch testada foi incorporada à `main` por fast-forward e enviada ao GitHub. O deploy de produção `dpl_5VBSca2c33tHwJpu69uy8yjhGrTQ`, commit `592f3e3`, ficou Ready. O build da Vercel executou compilação, lint e validação de tipos. O domínio https://zekro.vercel.app respondeu com a marca Zekro, preço de R$ 49,90 e teste de sete dias.
+
+Verificações HTTP em produção: `/`, `/login`, `/cadastro`, `/termos`, `/privacidade`, `/contato` e `/icon.svg` responderam 200; `/dashboard` e `/admin/pix` sem sessão redirecionaram ao login; disponibilidade sem parâmetros respondeu 400. Nenhuma reserva, conta ou transação financeira foi criada.
+
+O início de `/auth/google` apontou para o Supabase correto, mas o provedor retornou `Unsupported provider: provider is not enabled`. Não é um login Google aprovado: a configuração do cliente OAuth continua pendente.
+
+O usuário forneceu recebedor Pix e identificação/contato do operador. As cinco variáveis foram configuradas apenas na Vercel, sem gravar os valores no repositório. O nome no BR Code foi abreviado para atender o limite de 25 caracteres; a página de contato usa a identificação completa. Novo build é necessário para incorporar essa configuração. Não houve pagamento ou confirmação bancária de teste.
+
 ## Ordem de publicação
 
 1. Confirmar a saúde do Supabase, o schema existente e backup recuperável.

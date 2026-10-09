@@ -1,10 +1,10 @@
 # Zekro: identidade, teste e preparação para lançamento
 
-O produto passa a se chamar Zekro. A oferta é Zekro Pro por **R$ 49,90/mês**, com **7 dias de teste**. Não há oferta gratuita permanente. O endereço pretendido é **https://zekro.vercel.app**; sua disponibilidade e vinculação na Vercel ainda não foram confirmadas.
+O produto passa a se chamar Zekro. A oferta é Zekro Pro por **R$ 49,90/mês**, com **7 dias de teste**. Não há oferta gratuita permanente. **https://zekro.vercel.app** está vinculado e serve a nova versão em produção. As quatro migrações de outubro foram aplicadas com autorização. Estado atual, verificações e snapshot privado: [DEPLOYMENT_20261008.md](DEPLOYMENT_20261008.md).
 
 ## Banco e compatibilidade
 
-Aplicar, somente depois de homologação e autorização de produção:
+Ordem das migrações incrementais, já aplicadas na produção autorizada (não reaplicar):
 
 1. `202610080001_security_stability.sql` (documentada em MIGRATION_SECURITY.md).
 2. `202610080002_trial.sql`.
@@ -22,14 +22,14 @@ Para rollback em homologação, reverter o código junto com a migração: remov
 - Configurar Pix direto e o recebedor real; homologar QR no banco e a confirmação manual em /admin/pix. Não haverá intermediário ou cobrança recorrente. Consulte docs/PIX_GOOGLE_LEGAL.md.
 - Habilitar Google OAuth no Supabase/Google e configurar identidade/contato das páginas legais.
 - Configurar SMTP e validar confirmação/recuperação em homologação (docs/SMTP.md).
-- Confirmar disponibilidade do nome Zekro e do endereço Vercel. Vincular o endereço somente após autorização.
-- Definir NEXT_PUBLIC_APP_URL=https://zekro.vercel.app na Vercel e atualizar Site URL/redirect allowlist no Supabase. Não substituir URLs antigas antes de validar links de recuperação/confirmacão em trânsito.
-- Aplicar migrações em homologação, validar backup e obter autorização antes de produção.
+- Avaliar o registro da marca Zekro conforme a operação. A disponibilidade do subdomínio Vercel já foi confirmada; isso não comprova disponibilidade jurídica da marca.
+- NEXT_PUBLIC_APP_URL, Site URL e redirect allowlist foram atualizados, preservando todos os redirects anteriores encontrados no servidor.
+- As migrações passaram em PostgreSQL local isolado com as definições recuperadas do snapshot de produção e foram aplicadas após autorização. Continuar com homologação real de Auth/Storage e entrega de emails; o snapshot das migrações não substitui backup completo de desastre.
 - Rever políticas de privacidade, termos e suporte com os dados reais do responsável pelo serviço. Não inventar identidade jurídica ou garantias de serviço.
 
 ## Entrega e deploy
 
-As mudanças são enviadas à branch `feat/zekro-security-trial`. Sua implantação automática está desabilitada em vercel.json para respeitar a instrução de não fazer deploy automático. Fazer merge e deploy só após resolver as pendências acima. A implementação atual é de Pix direto, com liberação administrativa após conferência bancária. Configuração real e homologação bancária ainda pendentes.
+Após autorização do usuário para publicar, as mudanças foram incorporadas à `main` por fast-forward e enviadas ao GitHub. A Vercel executou um build de produção. A implantação automática continua desabilitada apenas para `feat/zekro-security-trial`; a `main` é a branch de produção. O Pix usa liberação administrativa após conferência bancária. Homologação bancária ainda pendente.
 
 A planilha privada original continua fora do Git: `C:\Users\Pedro\Documents\Barberflow_Privado\Barberflow_Gerenciamento_Acessos.xlsx`. Atualizar os dados de plataforma apenas após confirmar a configuração real; nunca incluir credenciais.
 
@@ -42,4 +42,4 @@ A planilha privada original continua fora do Git: `C:\Users\Pedro\Documents\Barb
 - npm run test:e2e: 14 aprovados em desktop e celular; validações de marca/preço e ausência de overflow horizontal.
 - Inspeção visual por capturas locais em 1440px e 390px.
 
-Nenhuma migração remota, configuração de SMTP, cobrança ou deploy foi executado. A auditoria anterior está em docs/DELIVERY.md e docs/AUDIT.md; os resultados acima são os mais recentes. Pendência de dependências: sete avisos altos no conjunto de ferramentas de desenvolvimento documentados em docs/DEPENDENCIES.md; dependências de produção sem alertas na auditoria anterior.
+Os números acima registram a entrega inicial de marca/teste. A entrega posterior de Pix/Google teve 60 testes e 20 E2E aprovados (docs/PIX_GOOGLE_LEGAL.md). O estado remoto posterior está em docs/DEPLOYMENT_20261008.md. A auditoria anterior está em docs/DELIVERY.md e docs/AUDIT.md. Pendência de dependências: sete avisos altos no conjunto de ferramentas de desenvolvimento documentados em docs/DEPENDENCIES.md; dependências de produção sem alertas na auditoria anterior.

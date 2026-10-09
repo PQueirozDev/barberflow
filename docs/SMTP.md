@@ -1,5 +1,7 @@
 # Email e autenticação
 
+Atualização de produção: o SMTP existente foi preservado, e os assuntos/HTML dos templates de confirmação e recuperação Zekro foram aplicados pelo CLI oficial após a autorização para finalizar e publicar. As credenciais SMTP não foram extraídas nem alteradas. O Auth confirmou correspondência da configuração aplicada; entrega real e uso dos links ainda precisam ser homologados. Consulte [DEPLOYMENT_20261008.md](DEPLOYMENT_20261008.md).
+
 Supabase Auth continua responsável pelos emails. Não há serviço pago contratado
 nem credenciais SMTP configuradas por esta auditoria. Definir SMTP_* na Vercel
 não configura sozinho o Supabase hospedado.

@@ -1,5 +1,7 @@
 # Aplicação segura — 202610080001_security_stability
 
+Atualização: esta migração e as três incrementais seguintes foram aplicadas à produção em 08/10/2026 após autorização explícita, snapshot privado, recuperação local das definições e verificação de compatibilidade. O registro está em [DEPLOYMENT_20261008.md](DEPLOYMENT_20261008.md). As instruções abaixo documentam a preparação original; não reaplique migrações já confirmadas.
+
 Esta migração não foi executada em produção. As duas migrações de setembro
 permanecem intactas. O arquivo novo contém BEGIN/COMMIT e deve ser aplicado uma
 única vez, após as duas anteriores, usando o SQL Editor autorizado. Como o banco

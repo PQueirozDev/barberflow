@@ -2,7 +2,7 @@
 
 SaaS de agendamento com Next.js, React, TypeScript e Supabase (Auth, PostgreSQL e Storage).
 
-Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Pagamento via Pix direto, com conferência administrativa e sem renovação automática. Configuração real pendente; veja [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
+Endereço de produção: https://zekro.vercel.app. Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Pagamento via Pix direto, com conferência administrativa e sem renovação automática. Veja [a publicação e validação do banco](docs/DEPLOYMENT_20261008.md) e [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
 
 ## Executar
 
@@ -14,7 +14,7 @@ Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: 
    - `supabase/migrations/202610080002_trial.sql`
    - `supabase/migrations/202610080003_manual_pix.sql`
    - `supabase/migrations/202610080004_terms_acceptance.sql`
-   Para o banco existente, aplique somente a migração nova após homologação e autorização; siga [as instruções de aplicação e rollback](docs/MIGRATION_SECURITY.md).
+   As quatro migrações de outubro já foram aplicadas ao banco de produção autorizado. Para outros bancos existentes, aplique somente as migrações ainda não aplicadas após homologação e autorização; siga [as instruções de aplicação e rollback](docs/MIGRATION_SECURITY.md).
 3. Copie `.env.example` para `.env.local` e substitua os valores:
    - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto.
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: chave pública anon.
@@ -30,7 +30,7 @@ Sem Supabase, a página inicial e `/demonstracao` apresentam a interface. Contas
 
 Crie uma conta em `/cadastro`, confirme o email e conclua `/onboarding`. O assistente cria a barbearia, o primeiro serviço, o primeiro barbeiro e os horários. No dashboard, gerencie profissionais, serviços, horários, bloqueios, clientes, reservas e sua página pública. Vincule serviços aos novos profissionais e configure sua disponibilidade.
 
-A página pública fica em `/<slug>`; `/b/<slug>` preserva links antigos. Clientes reservam sem criar conta. O banco valida duração, fuso horário e conflitos. FREE permite até 50 reservas por mês.
+A página pública fica em `/<slug>`; `/b/<slug>` preserva links antigos. Clientes reservam sem criar conta. O banco valida duração, fuso horário e conflitos. Novas reservas exigem teste ou assinatura vigente; não existe plano gratuito permanente.
 
 Para habilitar um administrador, um responsável pelo banco deve executar no SQL Editor após criar a conta:
 
