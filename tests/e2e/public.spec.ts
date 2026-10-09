@@ -2,6 +2,10 @@ import { expect, test } from '@playwright/test';
 
 test('página inicial leva à demonstração e ao cadastro', async ({ page }) => {
   await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Zekro Pro' })).toBeVisible();
+  await expect(page.getByText('R$ 49,90', { exact: false }).first()).toBeVisible();
+  await expect(page.getByText('Grátis', { exact: true })).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('agendamentos');
   await page.getByRole('link', { name: 'Ver demonstração' }).click();
   await expect(page).toHaveURL(/\/demonstracao$/);

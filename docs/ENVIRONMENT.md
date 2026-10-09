@@ -2,6 +2,15 @@
 
 Atualizado em 19/09/2026.
 
+## Auditoria local em 08/10/2026
+
+As informações remotas abaixo são o registro de 19/09, não uma nova verificação
+da infraestrutura. A migração incremental `202610080001_security_stability.sql`
+foi validada somente em PGlite/PostgreSQL nativo descartáveis. Não foi aplicada
+ao Supabase, e nenhum deploy, credencial, plano ou região foi alterado.
+SMTP permanece pendente; [templates e configuração manual](SMTP.md) estão
+preparados. Consulte [aplicação e rollback](MIGRATION_SECURITY.md).
+
 - Projeto Supabase: `barberflow`, referência `wklasgsubtkpieshsfxc`, organização Barberflow, plano gratuito.
 - Região do banco: West US (Oregon), escolhida na criação do projeto. O fuso dos agendamentos é configurado por barbearia, independentemente da região do servidor.
 - As migrações `202609170001_platform.sql` e `202609170002_management.sql` foram aplicadas pelo SQL Editor em transações. Não reaplique esses arquivos neste banco: eles não são idempotentes e não foram registrados pelo Supabase CLI.

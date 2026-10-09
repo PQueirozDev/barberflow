@@ -9,3 +9,4 @@ playwright-report
 *.tsbuildinfo
 prisma
 docker-compose.yml
+Barberflow_Gerenciamento_Acessos.xlsx

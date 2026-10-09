@@ -1,8 +1,8 @@
-﻿# Barberflow
+﻿# Zekro
 
 SaaS de agendamento com Next.js, React, TypeScript e Supabase (Auth, PostgreSQL e Storage).
 
-Site publicado: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
+Endereço pretendido: https://zekro.vercel.app (vinculação pendente). Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Cobrança recorrente ainda não integrada; veja [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
 
 ## Executar
 
@@ -10,13 +10,16 @@ Site publicado: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do
 2. Crie um projeto Supabase. Execute no SQL Editor, nesta ordem, uma vez por ambiente:
    - `supabase/migrations/202609170001_platform.sql`
    - `supabase/migrations/202609170002_management.sql`
+   - `supabase/migrations/202610080001_security_stability.sql`
+   - `supabase/migrations/202610080002_trial.sql`
+   Para o banco existente, aplique somente a migração nova após homologação e autorização; siga [as instruções de aplicação e rollback](docs/MIGRATION_SECURITY.md).
 3. Copie `.env.example` para `.env.local` e substitua os valores:
    - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto.
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: chave pública anon.
    - `SUPABASE_SERVICE_ROLE_KEY`: chave service_role, exclusiva do servidor, necessária para reservas e rate limiting.
    - `NEXT_PUBLIC_APP_URL`: origem da aplicação, inicialmente `http://localhost:3000`.
 4. Em Supabase Authentication, configure Site URL com a origem e autorize os redirects `http://localhost:3000/auth/callback` e `http://localhost:3000/auth/callback?next=/redefinir-senha`. Adicione também os equivalentes de produção.
-5. Configure o envio de emails no Supabase para confirmação e recuperação de senha.
+5. Configure o envio de emails no Supabase para confirmação e recuperação de senha conforme [SMTP e templates](docs/SMTP.md). Nenhum provedor é habilitado automaticamente.
 6. Execute `npm run dev` e abra `http://localhost:3000`.
 
 Sem Supabase, a página inicial e `/demonstracao` apresentam a interface. Contas e reservas reais exigem configuração. A demonstração usa dados ilustrativos.
@@ -47,6 +50,12 @@ npm run test:e2e
 ```
 
 Os testes de banco usam PostgreSQL embarcado (PGlite) e simulação dos schemas Auth e Storage. Cobrem isolamento, permissões, disponibilidade, bloqueios e conflitos. Auth, emails e uploads ainda devem ser validados em um Supabase real. Os testes de navegador verificam navegação pública em desktop e celular, usando o build de produção.
+
+Os testes de concorrência também iniciam PostgreSQL nativo local em diretório temporário, com conexões independentes. Não leem credenciais Supabase. `test:e2e` recompila com URLs de loopback e credenciais fictícias, inicia fixtures HTTP locais e verifica rate limiting, conflitos, entradas e origens. Usa Chrome instalado no Windows quando disponível. O build de teste não deve ser publicado: execute novo `npm run build` com o ambiente correto antes de publicação autorizada.
+
+OWNER gerencia configurações, equipe, permissões e preços; MANAGER mantém agenda, clientes, serviços e horários. Preços são exclusivos de OWNER. Reservas públicas não sobrescrevem clientes existentes; correções cadastrais ocorrem na área autenticada. Assinaturas continuam provisionadas pelo ADMIN, sem checkout.
+
+Consulte [a auditoria](docs/AUDIT.md), [as dependências e pendências](docs/DEPENDENCIES.md) e [o relatório de entrega](docs/DELIVERY.md).
 
 Se o Chrome já estiver instalado, é possível dispensar o download do Chromium. No PowerShell, execute `$env:PLAYWRIGHT_CHANNEL='chrome'` antes de `npm run test:e2e`.
 
