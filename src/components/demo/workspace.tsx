@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { BarChart3, CalendarDays, ClipboardList, Globe, LayoutDashboard, Scissors, Settings, Sparkles, Users } from 'lucide-react';
 import { Badge, Field, Logo, PageHeader, Stat } from '@/components/ui';
 import { Modal } from '@/components/modal';
 import { Reports } from '@/components/dashboard/reports';
@@ -11,6 +12,7 @@ import type { Appointment, Customer, Service } from '@/types/domain';
 
 const sections=['Dashboard','Agenda','Agendamentos','Clientes','Profissionais','Serviços','Relatórios','Configurações','Página pública'] as const;
 type Section=typeof sections[number];
+const sectionIcons={Dashboard:LayoutDashboard,Agenda:CalendarDays,Agendamentos:ClipboardList,Clientes:Users,Profissionais:Scissors,'Serviços':Sparkles,'Relatórios':BarChart3,'Configurações':Settings,'Página pública':Globe} satisfies Record<Section,unknown>;
 export function DemoWorkspace() {
  const [seed]=useState(()=>demoData(localDate()));
  const [data,setData]=useState(seed.data),[customers,setCustomers]=useState(seed.customers),[appointments,setAppointments]=useState(seed.appointments);
@@ -44,8 +46,8 @@ export function DemoWorkspace() {
   setModal(null);
  }
  const rows=section==='Agenda'?appointments.filter(a=>localDate(new Date(a.starts_at))===date):section==='Dashboard'?live.filter(a=>localDate(new Date(a.starts_at))===today):appointments;
- function table(){return <div className="table-scroll"><table><caption className="sr-only">Agendamentos fictícios</caption><thead><tr><th>Data / horário</th><th>Cliente / serviço</th><th>Profissional</th><th>Status</th><th>Ações</th></tr></thead><tbody>{rows.map(a=><tr key={a.id}><td>{day(a.starts_at)}<br/>{time(a.starts_at)}</td><td><strong>{a.customers.name}</strong><p>{a.services.name} · {money(a.price_cents)}</p></td><td>{a.barbers.name}</td><td><Badge status={a.status}/></td><td>{['CONFIRMED','PENDING'].includes(a.status)&&<div className="flex flex-wrap gap-3"><button className="underline" onClick={()=>open('appointment',a)} aria-label={`Reagendar ${a.customers.name}`}>Reagendar</button><button className="underline" aria-label={`Cancelar ${a.customers.name}`} onClick={()=>{setAppointments(appointments.map(x=>x.id===a.id?{...x,status:'CANCELLED'}:x));setMessage('Agendamento cancelado na demonstração.');}}>Cancelar</button></div>}</td></tr>)}</tbody></table>{!rows.length&&<p className="p-6 muted">Nenhum agendamento neste dia.</p>}</div>;}
- return <main className="demo-workspace"><header className="demo-banner"><Logo/><p>Demonstração ilustrativa e interativa · Dados fictícios</p><Link href="/cadastro" className="btn btn-dark">Criar minha barbearia</Link></header><div className="demo-body"><nav className="demo-nav" aria-label="Módulos da demonstração">{sections.map(s=><button key={s} aria-current={s===section?'page':undefined} onClick={()=>{setSection(s);setMessage('');}}>{s}</button>)}</nav><div className="demo-content">
+ function table(){return <div className="table-scroll"><table><caption className="sr-only">Agendamentos fictícios</caption><thead><tr><th>Data / horário</th><th>Cliente / serviço</th><th>Profissional</th><th>Status</th><th>Ações</th></tr></thead><tbody>{rows.map(a=><tr key={a.id}><td>{day(a.starts_at)}<br/>{time(a.starts_at)}</td><td><strong>{a.customers.name}</strong><p>{a.services.name} · {money(a.price_cents)}</p></td><td>{a.barbers.name}</td><td><Badge status={a.status}/></td><td>{['CONFIRMED','PENDING'].includes(a.status)&&<div className="flex flex-wrap gap-3"><button className="btn-chip" onClick={()=>open('appointment',a)} aria-label={`Reagendar ${a.customers.name}`}>Reagendar</button><button className="btn-chip" aria-label={`Cancelar ${a.customers.name}`} onClick={()=>{setAppointments(appointments.map(x=>x.id===a.id?{...x,status:'CANCELLED'}:x));setMessage('Agendamento cancelado na demonstração.');}}>Cancelar</button></div>}</td></tr>)}</tbody></table>{!rows.length&&<p className="p-6 muted">Nenhum agendamento neste dia.</p>}</div>;}
+ return <main className="demo-workspace"><header className="demo-banner"><Logo/><p>Demonstração ilustrativa e interativa · Dados fictícios</p><Link href="/cadastro" className="btn btn-dark">Criar minha barbearia</Link></header><div className="demo-body"><nav className="demo-nav" aria-label="Módulos da demonstração">{sections.map(s=><button key={s} aria-current={s===section?'page':undefined} onClick={()=>{setSection(s);setMessage('');}}>{(()=>{const Icon=sectionIcons[s];return <Icon size={17} aria-hidden="true"/>;})()}{s}</button>)}</nav><div className="demo-content">
  <p className="notice mb-6">Explore à vontade. As simulações ficam apenas nesta página e reiniciam ao recarregar. Use somente nomes fictícios.</p>
  {message&&<p role="status" className="notice success mb-5">{message}</p>}
  {section!=='Relatórios'&&section!=='Página pública'&&<PageHeader eyebrow="BARBER HOUSE · DEMONSTRAÇÃO" title={section} description="Experimente a organização da sua futura barbearia.">{['Dashboard','Agenda','Agendamentos'].includes(section)&&<button className="btn btn-dark" onClick={()=>{setSelectedService('');open('appointment');}}>Novo agendamento</button>}</PageHeader>}

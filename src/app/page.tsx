@@ -15,7 +15,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { Logo } from "@/components/ui";
+import { Logo, LogoMark } from "@/components/ui";
 import { MarketingNav } from "@/components/marketing-nav";
 import { MarketingFaq } from "@/components/marketing-faq";
 
@@ -77,7 +77,7 @@ function AgendaPreview() {
         </div>
         <div className="preview-workspace">
           <aside className="preview-sidebar" aria-hidden="true">
-            <span className="preview-brand">z</span>
+            <LogoMark size={27} />
             <CalendarDays />
             <Users />
             <Scissors />
