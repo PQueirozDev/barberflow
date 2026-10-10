@@ -1,8 +1,138 @@
-import { MemberPermissions } from '@/components/dashboard/member-permissions';
-import type { MemberRole } from '@/lib/permissions';
-import Link from 'next/link';
-import { requireTenant } from '@/lib/auth';
-import { PageHeader } from '@/components/ui';
-import { HoursEditor,BlockEditor } from '@/components/dashboard/hours-editor';
-import { effectivePlan,plans } from '@/services/billing';
-export default async function Settings(){const{db,shop,user,role}=await requireTenant();const results=await Promise.all([db.from('business_hours').select('*').eq('barbershop_id',shop.id).order('weekday'),db.from('blocked_times').select('*').eq('barbershop_id',shop.id).is('barber_id',null).order('starts_at'),db.from('subscriptions').select('*').eq('barbershop_id',shop.id).single()]);for(const r of results)if(r.error)throw new Error('Não foi possível carregar as configurações.');const[hours,blocks,subscription]=results.map(r=>r.data);const members=role==='OWNER'?await db.from('barbershop_members').select('user_id,role').eq('barbershop_id',shop.id).order('created_at'):{data:[],error:null};if(members.error)throw new Error('Não foi possível carregar as permissões.');const plan=effectivePlan(subscription);return <><PageHeader eyebrow="TUDO NO SEU LUGAR" title="Configurações" description="Ajuste os detalhes que fazem sua barbearia funcionar."/><div className="grid sm:grid-cols-3 gap-4 mb-7">{[['Dados e página pública','Logo, endereço, WhatsApp, notificações e pausa de reservas.','/dashboard/pagina'],['Funcionários','Profissionais, especialidades e disponibilidade.','/dashboard/barbeiros'],['Sua conta',user.email||'Gerencie seu acesso.','/recuperar-senha']].filter(([, , href])=>role==='OWNER'||href==='/recuperar-senha').map(([title,description,href])=><Link href={href} className="card p-5" key={title}><h2 className="section-title !text-sm">{title} ↗</h2><p className="text-xs muted mt-3 leading-relaxed">{description}</p></Link>)}</div><div className="grid xl:grid-cols-[1.3fr_1fr] gap-6"><section className="card p-6"><h2 className="section-title mb-6">Horários da barbearia</h2><HoursEditor hours={hours||[]}/></section><div className="space-y-6"><section className="card p-6"><h2 className="section-title mb-6">Bloqueios para toda a barbearia</h2><BlockEditor blocks={blocks||[]} timezone={shop.timezone}/></section><section className="card p-6" id="plano"><p className="eyebrow">SEU PLANO ATUAL</p><h2 className="text-2xl">{plans[plan].name}</h2><p className="muted text-sm mt-4">{plan==='FREE'?'Novas reservas pausadas. Assine para continuar.':'Agendamentos ilimitados.'}</p><p className="text-xs muted mt-3">Status: {subscription?.subscription_status||'active'}</p><p className="text-xs muted mt-3">{subscription?.subscription_expires_at?`Acesso até: ${new Date(subscription.subscription_expires_at).toLocaleDateString('pt-BR')}`:''}</p><p className="notice mt-5">Zekro Pro: R$ 49,90 por 30 dias, via Pix direto. Liberação após conferência manual no banco. Sem renovação automática.</p>{role==='OWNER'&&<Link href="/dashboard/pagamento" className="btn btn-dark mt-4">Pagar com Pix</Link>}</section>{role==='OWNER'&&<MemberPermissions currentUser={user.id} members={(members.data||[]) as {user_id:string;role:MemberRole}[]}/>}</div></div></>;}
+import { MemberPermissions } from "@/components/dashboard/member-permissions";
+import type { MemberRole } from "@/lib/permissions";
+import Link from "next/link";
+import { requireTenant } from "@/lib/auth";
+import { PageHeader } from "@/components/ui";
+import { HoursEditor, BlockEditor } from "@/components/dashboard/hours-editor";
+import { effectivePlan, plans } from "@/services/billing";
+import { ProductSettings } from "@/components/dashboard/product-settings";
+import type { LoyaltyProgram } from "@/types/product";
+export default async function Settings() {
+  const { db, shop, user, role } = await requireTenant();
+  const results = await Promise.all([
+    db
+      .from("business_hours")
+      .select("*")
+      .eq("barbershop_id", shop.id)
+      .order("weekday"),
+    db
+      .from("blocked_times")
+      .select("*")
+      .eq("barbershop_id", shop.id)
+      .is("barber_id", null)
+      .order("starts_at"),
+    db.from("subscriptions").select("*").eq("barbershop_id", shop.id).single(),
+    db.from("shop_features").select("waitlist_enabled").eq("barbershop_id", shop.id).maybeSingle(),
+    db.from("loyalty_programs").select("id,visits_required,reward,starts_at,ends_at").eq("barbershop_id", shop.id).is("ends_at", null).maybeSingle(),
+  ]);
+  for (const r of results)
+    if (r.error) throw new Error("Não foi possível carregar as configurações.");
+  const [hours, blocks, subscription] = results.map((r) => r.data);
+  const members =
+    role === "OWNER"
+      ? await db
+          .from("barbershop_members")
+          .select("user_id,role")
+          .eq("barbershop_id", shop.id)
+          .order("created_at")
+      : { data: [], error: null };
+  if (members.error)
+    throw new Error("Não foi possível carregar as permissões.");
+  const plan = effectivePlan(subscription);
+  return (
+    <>
+      <PageHeader
+        eyebrow="TUDO NO SEU LUGAR"
+        title="Configurações"
+        description="Ajuste os detalhes que fazem sua barbearia funcionar."
+      />
+      <div className="grid sm:grid-cols-3 gap-4 mb-7">
+        {[
+          [
+            "Dados e página pública",
+            "Logo, endereço, WhatsApp, notificações e pausa de reservas.",
+            "/dashboard/pagina",
+          ],
+          [
+            "Funcionários",
+            "Profissionais, especialidades e disponibilidade.",
+            "/dashboard/barbeiros",
+          ],
+          [
+            "Sua conta",
+            user.email || "Gerencie seu acesso.",
+            "/recuperar-senha",
+          ],
+        ]
+          .filter(
+            ([, , href]) => role === "OWNER" || href === "/recuperar-senha",
+          )
+          .map(([title, description, href]) => (
+            <Link href={href} className="card p-5" key={title}>
+              <h2 className="section-title !text-sm">{title} ↗</h2>
+              <p className="text-xs muted mt-3 leading-relaxed">
+                {description}
+              </p>
+            </Link>
+          ))}
+      </div>
+      {role === "OWNER" && (
+        <section className="mb-7">
+          <h2 className="section-title mb-4">Recursos da barbearia</h2>
+          <ProductSettings
+            waitlist={Boolean(results[3].data?.waitlist_enabled)}
+            program={results[4].data as LoyaltyProgram | null}
+          />
+        </section>
+      )}
+      <div className="grid xl:grid-cols-[1.3fr_1fr] gap-6">
+        <section className="card p-6">
+          <h2 className="section-title mb-6">Horários da barbearia</h2>
+          <HoursEditor hours={hours || []} />
+        </section>
+        <div className="space-y-6">
+          <section className="card p-6">
+            <h2 className="section-title mb-6">
+              Bloqueios para toda a barbearia
+            </h2>
+            <BlockEditor blocks={blocks || []} timezone={shop.timezone} />
+          </section>
+          <section className="card p-6" id="plano">
+            <p className="eyebrow">SEU PLANO ATUAL</p>
+            <h2 className="text-2xl">{plans[plan].name}</h2>
+            <p className="muted text-sm mt-4">
+              {plan === "FREE"
+                ? "Novas reservas pausadas. Assine para continuar."
+                : "Agendamentos ilimitados."}
+            </p>
+            <p className="text-xs muted mt-3">
+              Status: {subscription?.subscription_status || "active"}
+            </p>
+            <p className="text-xs muted mt-3">
+              {subscription?.subscription_expires_at
+                ? `Acesso até: ${new Date(subscription.subscription_expires_at).toLocaleDateString("pt-BR")}`
+                : ""}
+            </p>
+            <p className="notice mt-5">
+              Zekro Pro: R$ 49,90 por 30 dias, via Pix direto. Liberação após
+              conferência manual no banco. Sem renovação automática.
+            </p>
+            {role === "OWNER" && (
+              <Link href="/dashboard/pagamento" className="btn btn-dark mt-4">
+                Pagar com Pix
+              </Link>
+            )}
+          </section>
+          {role === "OWNER" && (
+            <MemberPermissions
+              currentUser={user.id}
+              members={
+                (members.data || []) as { user_id: string; role: MemberRole }[]
+              }
+            />
+          )}
+        </div>
+      </div>
+    </>
+  );
+}

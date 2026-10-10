@@ -135,7 +135,7 @@ test('regressões: papéis, privacidade, transições e limites',async t=>{
  });
  await t.test('definers não herdam EXECUTE de PUBLIC e mantêm search_path protegido',async()=>{
   await root();const rows=(await db.query<{proname:string;proconfig:string[];anon:boolean}>("select p.proname,p.proconfig,has_function_privilege('anon',p.oid,'EXECUTE') anon from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prosecdef")).rows;
-  for(const row of rows){assert.ok(row.proconfig?.some(v=>v.startsWith('search_path=pg_catalog, public')),row.proname);assert.equal(row.anon,['public_shop','available_slots'].includes(row.proname),row.proname);}
+  for(const row of rows){assert.ok(row.proconfig?.some(v=>v.startsWith('search_path=pg_catalog, public')),row.proname);assert.equal(row.anon,['public_shop','available_slots','public_features'].includes(row.proname),row.proname);}
  });
  await t.test('teste dura sete dias, expiração bloqueia reservas e membros não estendem prazo',async()=>{
   await root();const sub=(await db.query<{days:number;plan:string;subscription_status:string}>("select extract(epoch from(subscription_expires_at-created_at))/86400 days,plan,subscription_status from subscriptions where barbershop_id=$1",[shopB])).rows[0];

@@ -7,7 +7,7 @@ test('página inicial leva à demonstração e ao cadastro', async ({ page }) =>
   await expect(page.getByText('Grátis', { exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('agendamentos');
-  await page.getByRole('link', { name: 'Ver demonstração' }).click();
+  await page.getByRole('link', { name: 'Explorar demonstração' }).click();
   await expect(page).toHaveURL(/\/demonstracao$/);
   await expect(page.getByText('Demonstração ilustrativa', { exact: false })).toBeVisible();
   await page.getByRole('link', { name: 'Criar minha barbearia', exact: true }).click();

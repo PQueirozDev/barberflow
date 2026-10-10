@@ -1,5 +1,6 @@
 import './globals.css';
 import './redesign.css';
+import './zekro2.css';
 import { VisualEffects } from '@/components/visual-effects';
 import type { Metadata } from 'next';
 export const metadata: Metadata = {

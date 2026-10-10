@@ -1,7 +1,191 @@
-'use client';
-import { useState } from 'react';
-import { PageHeader,Stat,EmptyState,Field } from '@/components/ui';
-import type { Appointment,Customer } from '@/types/domain';
-import { analytics } from '@/services/analytics';
-import { money,localDate,addDays } from '@/utils/format';
-export function Reports({appointments,customers,timezone}:{appointments:Appointment[];customers:Customer[];timezone:string}){const today=localDate(new Date(),timezone);const[period,setPeriod]=useState('month');const[from,setFrom]=useState(today.slice(0,8)+'01');const[to,setTo]=useState(today);const result=analytics(appointments,customers,from,to,timezone);function change(p:string){setPeriod(p);setTo(today);setFrom(p==='7'?addDays(today,-6):p==='30'?addDays(today,-29):today.slice(0,8)+'01');}const n=Math.max(1,Math.round((new Date(to+'T12:00Z').getTime()-new Date(from+'T12:00Z').getTime())/86400000)+1);const buckets=Array.from({length:Math.min(12,n)},(_,i)=>{const start=addDays(from,Math.floor(i*n/Math.min(12,n)));const end=addDays(from,Math.floor((i+1)*n/Math.min(12,n)));const total=result.period.filter(a=>a.status==='COMPLETED'&&localDate(new Date(a.starts_at),timezone)>=start&&localDate(new Date(a.starts_at),timezone)<end).reduce((sum,a)=>sum+a.price_cents,0);return{start,total};});const max=Math.max(1,...buckets.map(b=>b.total));return <><PageHeader eyebrow="INFORMAÇÃO PARA CRESCER" title="Relatórios" description="Entenda o movimento e as oportunidades do seu negócio."/><div className="filters items-end"><Field label="Período"><select value={period} onChange={e=>change(e.target.value)}><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option><option value="month">Este mês</option><option value="custom">Personalizado</option></select></Field><Field label="De"><input type="date" value={from} max={to} onChange={e=>{if(e.target.value){setFrom(e.target.value);setPeriod('custom');}}}/></Field><Field label="Até"><input type="date" value={to} min={from} onChange={e=>{if(e.target.value){setTo(e.target.value);setPeriod('custom');}}}/></Field></div><div className="grid grid-cols-2 xl:grid-cols-3 gap-4 mb-6"><Stat label="Faturamento estimado" value={money(result.estimated)} detail="Pendentes, confirmados e concluídos"/><Stat label="Atendimentos concluídos" value={result.completed} detail={`${money(result.revenue)} em serviços concluídos`}/><Stat label="Cancelamentos" value={result.cancelled}/><Stat label="Clientes novos" value={result.newCustomers}/><Stat label="Clientes recorrentes" value={result.recurring} detail="Clientes com mais de um atendimento concluído"/><Stat label="Ticket médio realizado" value={money(result.completed?result.revenue/result.completed:0)}/></div><section className="card p-6 mb-6"><div className="flex justify-between items-center gap-4"><h2 className="section-title">Receita de atendimentos concluídos</h2><p className="text-xs muted">{money(result.revenue)}</p></div><div className="flex items-end gap-3 h-52 mt-8" role="img" aria-label={`Receita total no período: ${money(result.revenue)}`}>{buckets.map(b=><div key={b.start} className="flex-1 flex flex-col justify-end items-center h-full gap-2"><span className="text-[9px] muted hidden sm:block">{money(b.total)}</span><div title={money(b.total)} className="w-full max-w-12 bg-[#bdd898] rounded-t-md" style={{height:`${Math.max(3,b.total/max*150)}px`}}/><span className="text-[9px] muted">{b.start.slice(8)}/{b.start.slice(5,7)}</span></div>)}</div></section><div className="grid md:grid-cols-2 gap-6">{[{title:'Serviços mais vendidos',items:result.services},{title:'Barbeiros com mais atendimentos',items:result.barbers}].map(group=><section key={group.title} className="card p-6"><h2 className="section-title mb-7">{group.title}</h2>{group.items.length?group.items.map((item,i)=><div key={item.id} className="mb-6"><div className="flex justify-between items-center text-xs mb-3"><span><span className="muted mr-3">0{i+1}</span>{item.name}</span><strong>{item.count} · {money(item.total)}</strong></div><div className="progress-track"><div style={{width:`${item.count/group.items[0].count*100}%`}}/></div></div>):<EmptyState title="Os números vêm com o movimento" description="Conclua atendimentos para acompanhar este relatório."/>}</section>)}</div></>;}
+"use client";
+import { useState } from "react";
+import { PageHeader, Stat, EmptyState, Field } from "@/components/ui";
+import type { Appointment, Customer } from "@/types/domain";
+import { analytics } from "@/services/analytics";
+import { money, localDate, addDays } from "@/utils/format";
+export function Reports({
+  appointments,
+  customers,
+  timezone,
+}: {
+  appointments: Appointment[];
+  customers: Customer[];
+  timezone: string;
+}) {
+  const today = localDate(new Date(), timezone);
+  const [period, setPeriod] = useState("month");
+  const [from, setFrom] = useState(today.slice(0, 8) + "01");
+  const [to, setTo] = useState(today);
+  const result = analytics(appointments, customers, from, to, timezone);
+  function change(p: string) {
+    setPeriod(p);
+    setTo(today);
+    setFrom(
+      p === "7"
+        ? addDays(today, -6)
+        : p === "30"
+          ? addDays(today, -29)
+          : today.slice(0, 8) + "01",
+    );
+  }
+  const n = Math.max(
+    1,
+    Math.round(
+      (new Date(to + "T12:00Z").getTime() -
+        new Date(from + "T12:00Z").getTime()) /
+        86400000,
+    ) + 1,
+  );
+  const buckets = Array.from({ length: Math.min(12, n) }, (_, i) => {
+    const start = addDays(from, Math.floor((i * n) / Math.min(12, n)));
+    const end = addDays(from, Math.floor(((i + 1) * n) / Math.min(12, n)));
+    const total = result.period
+      .filter(
+        (a) =>
+          a.status === "COMPLETED" &&
+          localDate(new Date(a.starts_at), timezone) >= start &&
+          localDate(new Date(a.starts_at), timezone) < end,
+      )
+      .reduce((sum, a) => sum + a.price_cents, 0);
+    return { start, total };
+  });
+  const max = Math.max(1, ...buckets.map((b) => b.total));
+  return (
+    <>
+      <PageHeader
+        eyebrow="INFORMAÇÃO PARA CRESCER"
+        title="Relatórios"
+        description="Entenda o movimento e as oportunidades do seu negócio."
+      />
+      <div className="filters items-end">
+        <Field label="Período">
+          <select value={period} onChange={(e) => change(e.target.value)}>
+            <option value="7">Últimos 7 dias</option>
+            <option value="30">Últimos 30 dias</option>
+            <option value="month">Este mês</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </Field>
+        <Field label="De">
+          <input
+            type="date"
+            value={from}
+            max={to}
+            onChange={(e) => {
+              if (e.target.value) {
+                setFrom(e.target.value);
+                setPeriod("custom");
+              }
+            }}
+          />
+        </Field>
+        <Field label="Até">
+          <input
+            type="date"
+            value={to}
+            min={from}
+            onChange={(e) => {
+              if (e.target.value) {
+                setTo(e.target.value);
+                setPeriod("custom");
+              }
+            }}
+          />
+        </Field>
+      </div>
+      <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
+        <Stat
+          label="Faturamento estimado"
+          value={money(result.estimated)}
+          detail="Pendentes, confirmados e concluídos"
+        />
+        <Stat
+          label="Atendimentos concluídos"
+          value={result.completed}
+          detail={`${money(result.completedValue)} em serviços; recebimento não comprovado`}
+        />
+        <Stat label="Cancelamentos" value={result.cancelled} />
+        <Stat label="Clientes novos" value={result.newCustomers} />
+        <Stat
+          label="Clientes recorrentes"
+          value={result.recurring}
+          detail="Clientes com mais de um atendimento concluído"
+        />
+        <Stat
+          label="Valor médio dos serviços concluídos"
+          value={money(
+            result.completed ? result.completedValue / result.completed : 0,
+          )}
+        />
+      </div>
+      <section className="card p-6 mb-6">
+        <div className="flex justify-between items-center gap-4">
+          <h2 className="section-title">Valor dos serviços concluídos</h2>
+          <p className="text-xs muted">{money(result.completedValue)}</p>
+        </div>
+        <div
+          className="flex items-end gap-3 h-52 mt-8"
+          role="img"
+          aria-label={`Valor dos serviços no período, sem comprovação de recebimento: ${money(result.completedValue)}`}
+        >
+          {buckets.map((b) => (
+            <div
+              key={b.start}
+              className="flex-1 flex flex-col justify-end items-center h-full gap-2"
+            >
+              <span className="text-[9px] muted hidden sm:block">
+                {money(b.total)}
+              </span>
+              <div
+                title={money(b.total)}
+                className="w-full max-w-12 bg-[#bdd898] rounded-t-md"
+                style={{ height: `${Math.max(3, (b.total / max) * 150)}px` }}
+              />
+              <span className="text-[9px] muted">
+                {b.start.slice(8)}/{b.start.slice(5, 7)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className="grid md:grid-cols-2 gap-6">
+        {[
+          { title: "Serviços mais vendidos", items: result.services },
+          { title: "Barbeiros com mais atendimentos", items: result.barbers },
+        ].map((group) => (
+          <section key={group.title} className="card p-6">
+            <h2 className="section-title mb-7">{group.title}</h2>
+            {group.items.length ? (
+              group.items.map((item, i) => (
+                <div key={item.id} className="mb-6">
+                  <div className="flex justify-between items-center text-xs mb-3">
+                    <span>
+                      <span className="muted mr-3">0{i + 1}</span>
+                      {item.name}
+                    </span>
+                    <strong>
+                      {item.count} · {money(item.total)}
+                    </strong>
+                  </div>
+                  <div className="progress-track">
+                    <div
+                      style={{
+                        width: `${(item.count / group.items[0].count) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <EmptyState
+                title="Os números vêm com o movimento"
+                description="Conclua atendimentos para acompanhar este relatório."
+              />
+            )}
+          </section>
+        ))}
+      </div>
+    </>
+  );
+}

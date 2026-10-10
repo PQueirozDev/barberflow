@@ -30,6 +30,7 @@ async function main(){
    if(rpc==='consume_rate_limit'){const result=await db.query<{v:boolean}>('select consume_rate_limit($1,$2,$3) v',[input.p_key,input.p_limit,input.p_seconds]);return reply(200,result.rows[0].v);}
    if(rpc==='available_slots'){const result=await db.query('select * from available_slots($1,$2,$3,$4,$5)',[input.p_slug,input.p_service,input.p_barber,input.p_date,input.p_exclude]);return reply(200,result.rows);}
    if(rpc==='public_shop'){const result=await db.query<{v:unknown}>('select public_shop($1) v',[input.p_slug]);return reply(200,result.rows[0].v);}
+   if(rpc==='public_features'){const result=await db.query<{v:unknown}>('select public_features($1) v',[input.p_slug]);return reply(200,result.rows[0].v);}
    if(rpc==='book_appointment'){const result=await db.query<{v:unknown}>('select book_appointment($1,$2,$3,$4,$5,$6,$7,$8) v',[input.p_slug,input.p_service,input.p_barber,input.p_start,input.p_name,input.p_phone,input.p_whatsapp,input.p_email]);return reply(200,result.rows[0].v);}
    return reply(404,{message:'Unknown local test endpoint'});
   }catch(error){return reply(400,{message:error instanceof Error?error.message:'Test error'});}

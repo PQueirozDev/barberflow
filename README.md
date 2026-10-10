@@ -14,6 +14,7 @@ Endereço de produção: https://zekro.vercel.app. Oferta: teste de 7 dias e Zek
    - `supabase/migrations/202610080002_trial.sql`
    - `supabase/migrations/202610080003_manual_pix.sql`
    - `supabase/migrations/202610080004_terms_acceptance.sql`
+   - As migrações Zekro 2.0 `202610090001_onboarding.sql`, `202610090002_product.sql` e `202610090003_analytics.sql` foram aplicadas em produção em 10/10/2026 e registradas no histórico Supabase. Em outros ambientes, confira as versões aplicadas antes de migrar; consulte `docs/ZEKRO_2_DELIVERY.md`.
    As quatro migrações de outubro já foram aplicadas ao banco de produção autorizado. Para outros bancos existentes, aplique somente as migrações ainda não aplicadas após homologação e autorização; siga [as instruções de aplicação e rollback](docs/MIGRATION_SECURITY.md).
 3. Copie `.env.example` para `.env.local` e substitua os valores:
    - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto.
@@ -24,7 +25,7 @@ Endereço de produção: https://zekro.vercel.app. Oferta: teste de 7 dias e Zek
 5. Configure o envio de emails no Supabase para confirmação e recuperação de senha conforme [SMTP e templates](docs/SMTP.md). Nenhum provedor é habilitado automaticamente.
 6. Execute `npm run dev` e abra `http://localhost:3000`.
 
-Sem Supabase, a página inicial e `/demonstracao` apresentam a interface. Contas e reservas reais exigem configuração. A demonstração usa dados ilustrativos.
+Sem Supabase, a página inicial e `/demonstracao` apresentam a interface. A demonstração interativa usa dados fictícios locais e não grava no sistema. Contas e reservas reais exigem configuração.
 
 ## Primeiro uso
 
@@ -57,7 +58,7 @@ Os testes de concorrência também iniciam PostgreSQL nativo local em diretório
 
 OWNER gerencia configurações, equipe, permissões e preços; MANAGER mantém agenda, clientes, serviços e horários. Preços são exclusivos de OWNER. Reservas públicas não sobrescrevem clientes existentes; correções cadastrais ocorrem na área autenticada. Assinaturas continuam provisionadas pelo ADMIN, sem checkout.
 
-Consulte [a auditoria](docs/AUDIT.md), [as dependências e pendências](docs/DEPENDENCIES.md) e [o relatório de entrega](docs/DELIVERY.md).
+Consulte [a auditoria](docs/AUDIT.md), [as dependências e pendências](docs/DEPENDENCIES.md) e [o relatório de entrega](docs/DELIVERY.md). Esta branch também inclui a [auditoria Zekro 2.0](docs/ZEKRO_2_AUDIT.md) e o [relatório de entrega local e limitações](docs/ZEKRO_2_DELIVERY.md).
 
 Se o Chrome já estiver instalado, é possível dispensar o download do Chromium. No PowerShell, execute `$env:PLAYWRIGHT_CHANNEL='chrome'` antes de `npm run test:e2e`.
 

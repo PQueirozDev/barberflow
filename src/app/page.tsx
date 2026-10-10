@@ -1,38 +1,405 @@
-import Link from 'next/link';
-import { ArrowUpRight, ArrowRight, CalendarDays, Check, Scissors, Users, Globe, Clock, Smartphone, BarChart3, MessageCircle, ShieldCheck, Sparkles, Zap } from 'lucide-react';
-import { Logo } from '@/components/ui';
-import { MarketingNav } from '@/components/marketing-nav';
-import { MarketingFaq } from '@/components/marketing-faq';
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Scissors,
+  Users,
+  Globe,
+  Clock,
+  Smartphone,
+  BarChart3,
+  MessageCircle,
+  ShieldCheck,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import { Logo } from "@/components/ui";
+import { MarketingNav } from "@/components/marketing-nav";
+import { MarketingFaq } from "@/components/marketing-faq";
 
 const features = [
-  { icon: CalendarDays, title: 'Uma agenda no seu ritmo.', text: 'Horários disponíveis calculados para cada serviço e profissional. Seus clientes reservam a qualquer hora.', tag: 'AGENDA INTELIGENTE' },
-  { icon: Globe, title: 'Seu link. Sua identidade.', text: 'Uma página com sua marca, seus serviços e sua equipe. Pronta para compartilhar e receber o próximo cliente.', tag: 'PÁGINA PERSONALIZADA' },
-  { icon: Scissors, title: 'Sua equipe, em sintonia.', text: 'Organize especialidades, horários, intervalos e folgas. Cada profissional com o espaço de que precisa.', tag: 'PROFISSIONAIS' },
-  { icon: Users, title: 'Conheça quem volta.', text: 'Histórico de atendimentos e contatos em um só lugar. Mais contexto para cuidar de cada cliente.', tag: 'CLIENTES' },
-  { icon: BarChart3, title: 'Enxergue seu negócio.', text: 'Acompanhe atendimentos, serviços mais procurados e faturamento estimado com relatórios claros.', tag: 'RELATÓRIOS' },
-  { icon: Smartphone, title: 'Seu negócio vai com você.', text: 'Gerencie pelo computador ou celular. Seus clientes agendam pelo navegador, sem instalar um aplicativo.', tag: 'FEITO PARA O CELULAR' },
+  {
+    icon: CalendarDays,
+    title: "Uma agenda no seu ritmo.",
+    text: "Horários disponíveis calculados para cada serviço e profissional. Seus clientes reservam a qualquer hora.",
+    tag: "AGENDA INTELIGENTE",
+  },
+  {
+    icon: Globe,
+    title: "Seu link. Sua identidade.",
+    text: "Uma página com sua marca, seus serviços e sua equipe. Pronta para compartilhar e receber o próximo cliente.",
+    tag: "PÁGINA PERSONALIZADA",
+  },
+  {
+    icon: Scissors,
+    title: "Sua equipe, em sintonia.",
+    text: "Organize especialidades, horários, intervalos e folgas. Cada profissional com o espaço de que precisa.",
+    tag: "PROFISSIONAIS",
+  },
+  {
+    icon: Users,
+    title: "Conheça quem volta.",
+    text: "Histórico de atendimentos e contatos em um só lugar. Mais contexto para cuidar de cada cliente.",
+    tag: "CLIENTES",
+  },
+  {
+    icon: BarChart3,
+    title: "Enxergue seu negócio.",
+    text: "Acompanhe atendimentos, serviços mais procurados e faturamento estimado com relatórios claros.",
+    tag: "RELATÓRIOS",
+  },
+  {
+    icon: Smartphone,
+    title: "Seu negócio vai com você.",
+    text: "Gerencie pelo computador ou celular. Seus clientes agendam pelo navegador, sem instalar um aplicativo.",
+    tag: "FEITO PARA O CELULAR",
+  },
 ];
 
 function AgendaPreview() {
-  return <div className="product-scene" data-reveal><div className="scene-glow" aria-hidden="true"/><div className="product-window">
-    <div className="window-toolbar"><span className="window-dots" aria-hidden="true"><i/><i/><i/></span><span>Seu espaço Zekro</span><span className="live-label"><span/>Online</span></div>
-    <div className="preview-workspace"><aside className="preview-sidebar" aria-hidden="true"><span className="preview-brand">z</span><CalendarDays/><Users/><Scissors/><BarChart3/></aside><div className="preview-content"><div className="preview-heading"><div><p>QUARTA-FEIRA · PRÉVIA ILUSTRATIVA</p><h2>Bom dia, sua agenda está pronta.</h2></div><span className="preview-add"><CalendarDays size={17}/></span></div>
-    <div className="preview-stats"><div><span>Hoje na agenda</span><strong>03 <small>atendimentos</small></strong></div><div><span>Seu próximo horário</span><strong>09:00 <small>corte clássico</small></strong></div></div>
-    <div className="preview-week" aria-hidden="true">{['SEG','TER','QUA','QUI','SEX','SÁB'].map((day,index)=><div className={index===2?'selected':''} key={day}><span>{day}</span><strong>{12+index}</strong></div>)}</div>
-    <div className="preview-schedule">{[['09:00','Corte clássico','Rafael · com João','RC'],['10:00','Corte + barba','Gustavo · com Lucas','GS'],['11:30','Barba & acabamento','André · com João','AL']].map(([hour,service,detail,initials])=><div className="preview-appointment" key={hour}><time>{hour}</time><span className="avatar">{initials}</span><div><strong>{service}</strong><p>{detail}</p></div><Check size={15}/></div>)}</div><div className="preview-link"><Globe size={15}/><span>Sua página. Pronta para o próximo cliente.</span><ArrowUpRight size={14}/></div></div></div></div>
-    <div className="scene-notification"><span><Check size={19}/></span><div><strong>Uma agenda mais organizada.</strong><p>Mais tempo para cuidar do seu negócio.</p></div></div>
-  </div>;
+  return (
+    <div className="product-scene" data-reveal>
+      <div className="scene-glow" aria-hidden="true" />
+      <div className="product-window">
+        <div className="window-toolbar">
+          <span className="window-dots" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span>Seu espaço Zekro</span>
+          <span className="live-label">
+            <span />
+            Online
+          </span>
+        </div>
+        <div className="preview-workspace">
+          <aside className="preview-sidebar" aria-hidden="true">
+            <span className="preview-brand">z</span>
+            <CalendarDays />
+            <Users />
+            <Scissors />
+            <BarChart3 />
+          </aside>
+          <div className="preview-content">
+            <div className="preview-heading">
+              <div>
+                <p>QUARTA-FEIRA · PRÉVIA ILUSTRATIVA</p>
+                <h2>Bom dia, sua agenda está pronta.</h2>
+              </div>
+              <span className="preview-add">
+                <CalendarDays size={17} />
+              </span>
+            </div>
+            <div className="preview-stats">
+              <div>
+                <span>Hoje na agenda</span>
+                <strong>
+                  03 <small>atendimentos</small>
+                </strong>
+              </div>
+              <div>
+                <span>Seu próximo horário</span>
+                <strong>
+                  09:00 <small>corte clássico</small>
+                </strong>
+              </div>
+            </div>
+            <div className="preview-week" aria-hidden="true">
+              {["SEG", "TER", "QUA", "QUI", "SEX", "SÁB"].map((day, index) => (
+                <div className={index === 2 ? "selected" : ""} key={day}>
+                  <span>{day}</span>
+                  <strong>{12 + index}</strong>
+                </div>
+              ))}
+            </div>
+            <div className="preview-schedule">
+              {[
+                ["09:00", "Corte clássico", "Rafael · com João", "RC"],
+                ["10:00", "Corte + barba", "Gustavo · com Lucas", "GS"],
+                ["11:30", "Barba & acabamento", "André · com João", "AL"],
+              ].map(([hour, service, detail, initials]) => (
+                <div className="preview-appointment" key={hour}>
+                  <time>{hour}</time>
+                  <span className="avatar">{initials}</span>
+                  <div>
+                    <strong>{service}</strong>
+                    <p>{detail}</p>
+                  </div>
+                  <Check size={15} />
+                </div>
+              ))}
+            </div>
+            <div className="preview-link">
+              <Globe size={15} />
+              <span>Sua página. Pronta para o próximo cliente.</span>
+              <ArrowUpRight size={14} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="scene-notification">
+        <span>
+          <Check size={19} />
+        </span>
+        <div>
+          <strong>Uma agenda mais organizada.</strong>
+          <p>Mais tempo para cuidar do seu negócio.</p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Home() {
-  return <main className="marketing redesign-marketing"><MarketingNav/>
-    <section className="hero"><div className="hero-content" data-reveal><p className="hero-kicker"><span/>FEITO PARA QUEM CUIDA DO ESTILO</p><h1>Seu talento.<br/>Sua barbearia.<br/><em>Seus agendamentos,<br/>em outro nível.</em></h1><p className="hero-copy">Menos mensagens para organizar. Mais tempo para fazer o que você faz de melhor. Sua agenda, equipe e clientes em um só lugar.</p><div className="hero-actions"><Link href="/cadastro" className="btn btn-lime">Criar minha barbearia<ArrowUpRight size={18}/></Link><Link href="/demonstracao" className="btn btn-hero-outline">Ver demonstração<ArrowRight size={17}/></Link></div><p className="hero-note"><ShieldCheck size={15}/>7 dias para experimentar · Depois, R$ 49,90/mês</p></div><AgendaPreview/><div className="hero-bottom"><span>ORGANIZAÇÃO QUE FAZ A DIFERENÇA</span><span>01 — SEU NOVO RITMO<ArrowRight size={15}/></span></div></section>
-    <div className="benefits-strip"><span><Clock size={18}/>Agendamento 24 horas</span><span><Globe size={18}/>Sua marca em destaque</span><span><MessageCircle size={18}/>Link pronto para compartilhar</span><span><Smartphone size={18}/>No computador e no celular</span></div>
-    <section id="recursos" className="marketing-section"><div className="section-heading" data-reveal><div><p className="eyebrow">MENOS IMPROVISO. MAIS CONTROLE.</p><h2>Você cuida do corte.<br/><em>A Zekro organiza o resto.</em></h2></div><p>Do primeiro agendamento ao próximo atendimento, um espaço pensado para o dia a dia da sua barbearia.</p></div><div className="features-grid">{features.map(({icon:Icon,title,text,tag},index)=><article className="feature-card card" key={title}><div className="feature-top"><span className="feature-icon"><Icon size={25}/></span><span className="feature-index">0{index+1}</span></div><p className="feature-tag">{tag}</p><h3>{title}</h3><p>{text}</p><span className="feature-line" aria-hidden="true"/></article>)}</div></section>
-    <section className="workflow-section" id="como-funciona"><div className="marketing-section"><div className="section-heading" data-reveal><div><p className="eyebrow">SEU PRÓXIMO CAPÍTULO</p><h2>Comece simples.<br/><em>Cresça no seu ritmo.</em></h2></div><p>Você prepara sua barbearia. Seus clientes escolhem o próximo horário. Sem precisar criar uma conta.</p></div><div className="steps-grid">{[['Crie seu espaço','Sua conta e os dados da barbearia.'],['Prepare sua agenda','Serviços, profissionais e horários.'],['Compartilhe seu link','Sua página pronta para receber clientes.']].map(([title,description],index)=><article className="workflow-step" key={title} data-reveal><span className="step-number">0{index+1}</span><h3>{title}</h3><p>{description}</p><ArrowUpRight size={22} aria-hidden="true"/></article>)}</div><Link href="/cadastro" className="btn btn-dark workflow-cta">Vamos começar<ArrowUpRight size={17}/></Link></div></section>
-    <section id="planos" className="marketing-section pricing-section"><div className="pricing-intro" data-reveal><p className="eyebrow">TUDO O QUE VOCÊ PRECISA</p><h2>Um plano.<br/>Toda a sua barbearia.<br/><em>Sem complicação.</em></h2><p>Experimente por 7 dias. Continue quando fizer sentido para o seu negócio.</p><div className="pricing-assurance"><span><Zap size={18}/>Acesso aos recursos do Zekro Pro</span><span><ShieldCheck size={18}/>Pix direto, sem cobrança automática</span><span><Smartphone size={18}/>Seu painel onde você estiver</span></div></div><article className="plan-card featured card" data-reveal><div className="plan-top"><span className="plan-icon"><Sparkles size={25}/></span><span className="trial-pill">7 DIAS DE TESTE</span></div><h3>Zekro Pro</h3><p className="plan-description">O espaço que seu negócio merece.</p><p className="plan-price"><span>R$</span>49,90<small>/ mês</small></p><ul>{['Agendamentos ilimitados','Página pública com sua identidade','Gestão de profissionais, serviços e clientes','Relatórios e controle de horários'].map(item=><li key={item}><Check size={17}/>{item}</li>)}</ul><Link href="/cadastro" className="btn btn-lime">Experimentar por 7 dias<ArrowUpRight size={17}/></Link><p className="plan-fineprint">Após o teste, uma assinatura ativa é necessária para receber novas reservas. Pix direto com conferência manual; cada pagamento libera 30 dias. Não há plano gratuito permanente.</p></article></section>
-    <MarketingFaq/>
-    <section className="closing-section" data-reveal><div><p className="eyebrow">MAIS ESPAÇO PARA O SEU TALENTO</p><h2>O próximo passo<br/>da sua barbearia<br/><em>começa aqui.</em></h2></div><div><Link href="/cadastro" className="btn btn-lime">Testar por 7 dias<ArrowUpRight size={20}/></Link><p>Seu negócio. Sua marca. Seu ritmo.</p></div><Scissors className="closing-art" aria-hidden="true"/></section>
-    <footer className="marketing-footer"><div className="footer-top"><Logo/><p>Organização para quem<br/>transforma o estilo.</p><nav aria-label="Links do rodapé"><Link href="/termos">Termos</Link><Link href="/privacidade">Privacidade</Link><Link href="/contato">Contato</Link><Link href="/login">Acessar minha conta<ArrowUpRight size={14}/></Link></nav></div><div className="footer-bottom"><span>ZEKRO · FEITO PARA O SEU NEGÓCIO</span><span>Seu próximo capítulo começa com uma agenda.</span></div></footer>
-  </main>;
+  return (
+    <main className="marketing redesign-marketing">
+      <MarketingNav />
+      <section className="hero">
+        <div className="hero-content" data-reveal>
+          <p className="hero-kicker">
+            <span />
+            FEITO PARA QUEM CUIDA DO ESTILO
+          </p>
+          <h1>
+            Seu talento.
+            <br />
+            Sua barbearia.
+            <br />
+            <em>
+              Seus agendamentos,
+              <br />
+              em outro nível.
+            </em>
+          </h1>
+          <p className="hero-copy">
+            Menos mensagens para organizar. Mais tempo para fazer o que você faz
+            de melhor. Sua agenda, equipe e clientes em um só lugar.
+          </p>
+          <div className="hero-actions">
+            <Link href="/cadastro" className="btn btn-lime">
+              Começar teste grátis
+              <ArrowUpRight size={18} />
+            </Link>
+            <Link href="/demonstracao" className="btn btn-hero-outline">
+              Explorar demonstração
+              <ArrowRight size={17} />
+            </Link>
+          </div>
+          <p className="hero-note">
+            <ShieldCheck size={15} />7 dias para experimentar · Depois, R$
+            49,90/mês
+          </p>
+        </div>
+        <AgendaPreview />
+        <div className="hero-bottom">
+          <span>ORGANIZAÇÃO QUE FAZ A DIFERENÇA</span>
+          <span>
+            01 — SEU NOVO RITMO
+            <ArrowRight size={15} />
+          </span>
+        </div>
+      </section>
+      <div className="benefits-strip">
+        <span>
+          <Clock size={18} />
+          Agendamento 24 horas
+        </span>
+        <span>
+          <Globe size={18} />
+          Sua marca em destaque
+        </span>
+        <span>
+          <MessageCircle size={18} />
+          Link pronto para compartilhar
+        </span>
+        <span>
+          <Smartphone size={18} />
+          No computador e no celular
+        </span>
+      </div>
+      <section id="recursos" className="marketing-section">
+        <div className="section-heading" data-reveal>
+          <div>
+            <p className="eyebrow">MENOS IMPROVISO. MAIS CONTROLE.</p>
+            <h2>
+              Você cuida do corte.
+              <br />
+              <em>A Zekro organiza o resto.</em>
+            </h2>
+          </div>
+          <p>
+            Do primeiro agendamento ao próximo atendimento, um espaço pensado
+            para o dia a dia da sua barbearia.
+          </p>
+        </div>
+        <div className="features-grid">
+          {features.map(({ icon: Icon, title, text, tag }, index) => (
+            <article className="feature-card card" key={title}>
+              <div className="feature-top">
+                <span className="feature-icon">
+                  <Icon size={25} />
+                </span>
+                <span className="feature-index">0{index + 1}</span>
+              </div>
+              <p className="feature-tag">{tag}</p>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <span className="feature-line" aria-hidden="true" />
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="workflow-section" id="como-funciona">
+        <div className="marketing-section">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">SEU PRÓXIMO CAPÍTULO</p>
+              <h2>
+                Comece simples.
+                <br />
+                <em>Cresça no seu ritmo.</em>
+              </h2>
+            </div>
+            <p>
+              Você prepara sua barbearia. Seus clientes escolhem o próximo
+              horário. Sem precisar criar uma conta.
+            </p>
+          </div>
+          <div className="steps-grid">
+            {[
+              ["Crie seu espaço", "Sua conta e os dados da barbearia."],
+              ["Prepare sua agenda", "Serviços, profissionais e horários."],
+              [
+                "Compartilhe seu link",
+                "Sua página pronta para receber clientes.",
+              ],
+            ].map(([title, description], index) => (
+              <article className="workflow-step" key={title} data-reveal>
+                <span className="step-number">0{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{description}</p>
+                <ArrowUpRight size={22} aria-hidden="true" />
+              </article>
+            ))}
+          </div>
+          <Link href="/cadastro" className="btn btn-dark workflow-cta">
+            Vamos começar
+            <ArrowUpRight size={17} />
+          </Link>
+        </div>
+      </section>
+      <section id="planos" className="marketing-section pricing-section">
+        <div className="pricing-intro" data-reveal>
+          <p className="eyebrow">TUDO O QUE VOCÊ PRECISA</p>
+          <h2>
+            Um plano.
+            <br />
+            Toda a sua barbearia.
+            <br />
+            <em>Sem complicação.</em>
+          </h2>
+          <p>
+            Experimente por 7 dias. Continue quando fizer sentido para o seu
+            negócio.
+          </p>
+          <div className="pricing-assurance">
+            <span>
+              <Zap size={18} />
+              Acesso aos recursos do Zekro Pro
+            </span>
+            <span>
+              <ShieldCheck size={18} />
+              Pix direto, sem cobrança automática
+            </span>
+            <span>
+              <Smartphone size={18} />
+              Seu painel onde você estiver
+            </span>
+          </div>
+        </div>
+        <article className="plan-card featured card" data-reveal>
+          <div className="plan-top">
+            <span className="plan-icon">
+              <Sparkles size={25} />
+            </span>
+            <span className="trial-pill">7 DIAS DE TESTE</span>
+          </div>
+          <h3>Zekro Pro</h3>
+          <p className="plan-description">O espaço que seu negócio merece.</p>
+          <p className="plan-price">
+            <span>R$</span>49,90<small>/ mês</small>
+          </p>
+          <ul>
+            {[
+              "Agendamentos ilimitados",
+              "Página pública com sua identidade",
+              "Gestão de profissionais, serviços e clientes",
+              "Relatórios e controle de horários",
+            ].map((item) => (
+              <li key={item}>
+                <Check size={17} />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <Link href="/cadastro" className="btn btn-lime">
+            Experimentar por 7 dias
+            <ArrowUpRight size={17} />
+          </Link>
+          <p className="plan-fineprint">
+            Após o teste, uma assinatura ativa é necessária para receber novas
+            reservas. Pix direto com conferência manual; cada pagamento libera
+            30 dias. Não há plano gratuito permanente.
+          </p>
+        </article>
+      </section>
+      <MarketingFaq />
+      <section className="closing-section" data-reveal>
+        <div>
+          <p className="eyebrow">MAIS ESPAÇO PARA O SEU TALENTO</p>
+          <h2>
+            O próximo passo
+            <br />
+            da sua barbearia
+            <br />
+            <em>começa aqui.</em>
+          </h2>
+        </div>
+        <div>
+          <Link href="/cadastro" className="btn btn-lime">
+            Testar por 7 dias
+            <ArrowUpRight size={20} />
+          </Link>
+          <p>Seu negócio. Sua marca. Seu ritmo.</p>
+        </div>
+        <Scissors className="closing-art" aria-hidden="true" />
+      </section>
+      <footer className="marketing-footer">
+        <div className="footer-top">
+          <Logo />
+          <p>
+            Organização para quem
+            <br />
+            transforma o estilo.
+          </p>
+          <nav aria-label="Links do rodapé">
+            <Link href="/termos">Termos</Link>
+            <Link href="/privacidade">Privacidade</Link>
+            <Link href="/contato">Contato</Link>
+            <Link href="/login">
+              Acessar minha conta
+              <ArrowUpRight size={14} />
+            </Link>
+          </nav>
+        </div>
+        <div className="footer-bottom">
+          <span>ZEKRO · FEITO PARA O SEU NEGÓCIO</span>
+          <span>Seu próximo capítulo começa com uma agenda.</span>
+        </div>
+      </footer>
+    </main>
+  );
 }

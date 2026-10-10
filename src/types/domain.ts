@@ -5,6 +5,6 @@ export type Customer={id:string;name:string;phone:string;whatsapp:string;email:s
 export type Status='PENDING'|'CONFIRMED'|'COMPLETED'|'CANCELLED'|'NO_SHOW';
 export type Appointment={id:string;updated_at:string;code:string;barber_id:string;service_id:string;customer_id:string;starts_at:string;ends_at:string;price_cents:number;status:Status;customers:Customer;services:Service;barbers:Barber};
 export type Hours={id?:string;weekday:number;opens_at:string;closes_at:string};
-export type PublicShop={shop:Shop;services:Service[];barbers:Barber[];barber_services:{barber_id:string;service_id:string}[];hours:Hours[]};
+export type PublicShop={shop:Shop;services:Service[];barbers:Barber[];barber_services:{barber_id:string;service_id:string}[];hours:Hours[];features?:{waitlist_enabled:boolean}};
 export type BookingReceipt={code:string;starts_at:string;ends_at:string;price_cents:number;service:string;barber:string;shop:string;whatsapp:string;customer:string;timezone:string};
 export type ActionResult={error?:string;success?:string;redirect?:string};
