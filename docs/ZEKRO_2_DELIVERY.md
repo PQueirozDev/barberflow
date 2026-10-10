@@ -38,6 +38,6 @@ As seis migrações anteriores não foram alteradas. Antes da alteração, verif
 
 ## Publicação
 
-Em 10/10/2026 foi feito deploy direto da branch de trabalho para produção pela Vercel CLI, sem push ou merge. Build Vercel completou com Next.js 15.5.27 e ficou `READY` (deployment `dpl_AXiN6dxNwtADFXbccRKrpYAajBH6`, alias `https://zekro.vercel.app`). Smoke checks HTTP somente leitura: home, demonstração, robots, sitemap e página pública `/barbeariaflow` responderam 200; `/dashboard` redirecionou 307 para `/login`. Não foram criados usuários ou agendamentos de teste em produção.
+Em 10/10/2026 foi feito deploy direto da branch de trabalho pela Vercel CLI (deployment `dpl_AXiN6dxNwtADFXbccRKrpYAajBH6`). Depois, a solicitação do responsável foi atendida: commit `e263f6c` foi integrado por fast-forward à `main` e enviado para `origin/main`. A integração Git da Vercel fez novo deploy de produção, `dpl_E3szsT2uQFnjwPqTThGvxnKS5hMc`, status `READY`, que assumiu o alias `https://zekro.vercel.app`.
 
-Não houve merge, push, alteração de credenciais ou confirmação de assinatura. A branch permanece sem commit; o deploy publicado correspondeu ao conteúdo local testado.
+Smoke checks HTTP somente leitura após a publicação da `main`: home, demonstração e página pública `/barbeariaflow` responderam 200; no deploy anterior, robots/sitemap também responderam 200 e `/dashboard` redirecionou 307 para `/login`. Não foram criados usuários ou agendamentos de teste em produção. A branch `main` local e remota está limpa no commit `e263f6c`.
