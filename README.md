@@ -2,7 +2,7 @@
 
 SaaS de agendamento com Next.js, React, TypeScript e Supabase (Auth, PostgreSQL e Storage).
 
-Endereço de produção: https://zekro.vercel.app. Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Pagamento via Pix direto, com conferência administrativa e sem renovação automática. Veja [a publicação e validação do banco](docs/DEPLOYMENT_20261008.md) e [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
+Endereço de produção: https://zekro.pqueirozdev.com.br. Oferta: teste de 7 dias e Zekro Pro por R$ 49,90/mês. Pagamento via Pix direto, com conferência administrativa e sem renovação automática. Veja [a publicação e validação do banco](docs/DEPLOYMENT_20261008.md) e [as pendências de lançamento](docs/ZEKRO_LAUNCH.md). Endereço histórico: https://barberflow-pqueirozdev.vercel.app. Consulte [o estado do ambiente](docs/ENVIRONMENT.md) para configuração e pendências de email/autenticação.
 
 ## Executar
 
